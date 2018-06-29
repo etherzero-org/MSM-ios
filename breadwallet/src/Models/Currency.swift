@@ -262,16 +262,16 @@ public struct Currencies {
                              dbPath: "BreadWallet-bch.sqlite",
                              forkId: 0x40,
                              urlSchemes: E.isTestnet ? ["bchtest", "bitcoincash"] :  ["bitcoincash"])
-    static let eth = Ethereum(name: "Ethereum",
+    static let eth = Ethereum(name: "EtherZero",
                               code: "ETH",
                               symbol: S.Symbols.eth,
-                              colors: (UIColor(red:0.37, green:0.44, blue:0.64, alpha:1.0), UIColor(red:0.37, green:0.44, blue:0.64, alpha:1.0)),
+                              colors: (UIColor(red:0, green:0.74, blue:1, alpha:1.0), UIColor(red:0.37, green:0.44, blue:0.64, alpha:1.0)),
                               urlSchemes: ["ethereum", "ether"])
-    static let brd = ERC20Token(name: "BRD",
-                                code: "BRD",
+    static let brd = ERC20Token(name: "BlockOptions",
+                                code: "BO",
                                 symbol: "🍞",
                                 colors: (UIColor.fromHex("f9a43a"), UIColor.fromHex("ff5193")),
-                                address: E.isTestnet ? "0x7108ca7c4718efa810457f228305c9c71390931a" :  "0x558ec3152e2eb2174905cd19aea4e34a23de9ad6",
+                                address: E.isTestnet ? "0x86d105d5fa67f3eef986f75b7e63c6664f88319a" :  "0x86d105d5fa67f3eef986f75b7e63c6664f88319a",
                                 abi: ERC20Token.standardAbi,
-                                decimals: 18)
+                                decimals: 8)
 }

@@ -240,7 +240,7 @@ extension BRAPIClient {
     }
     
     open func getAssetVersions(_ name: String, completionHandler: @escaping ([String]?, Error?) -> Void) {
-        let req = URLRequest(url: url("/assets/bundles/\(name)/versions"))
+        let req = URLRequest(url: otherurl("/assets/bundles/\(name)/versions"))
         dataTaskWithRequest(req) {(data, resp, err) in
             if let err = err {
                 completionHandler(nil, err)
@@ -258,7 +258,7 @@ extension BRAPIClient {
     }
     
     open func downloadAssetArchive(_ name: String, completionHandler: @escaping (Data?, Error?) -> Void) {
-        let req = URLRequest(url: url("/assets/bundles/\(name)/download"))
+        let req = URLRequest(url: otherurl("/assets/bundles/\(name)/download"))
         dataTaskWithRequest(req) { (data, response, err) in
             if err != nil {
                 return completionHandler(nil, err)
@@ -275,7 +275,7 @@ extension BRAPIClient {
     }
     
     open func downloadAssetDiff(_ name: String, fromVersion: String, completionHandler: @escaping (Data?, Error?) -> Void) {
-        let req = URLRequest(url: self.url("/assets/bundles/\(name)/diff/\(fromVersion)"))
+        let req = URLRequest(url: self.otherurl("/assets/bundles/\(name)/diff/\(fromVersion)"))
         self.dataTaskWithRequest(req, handler: { (data, resp, err) in
             if err != nil {
                 return completionHandler(nil, err)

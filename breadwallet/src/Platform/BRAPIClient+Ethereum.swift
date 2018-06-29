@@ -38,21 +38,22 @@ extension BRAPIClient {
     }
 
     public func getEthTxList(address: EthAddress, handler: @escaping (APIResult<[EthTxJSON]>)->Void) {
-        let req = URLRequest(url: url("/ethq/\(network)/query?module=account&action=txlist&address=\(address)&sort=desc"))
+        let req = URLRequest(url: otherurl("/ethq/\(network)/query?module=account&action=txlist&address=\(address)&sort=desc"))
+//        let req = URLRequest(url: url("/ethq/\(network)/query?module=account&action=txlist&address=\(address)&sort=desc"))
         send(apiRequest: req, handler: handler)
     }
     
     // MARK: Tokens
     
     public func getTokenBalance(address: EthAddress, token: ERC20Token, handler: @escaping (APIResult<String>) -> Void) {
-        let req = URLRequest(url: url("/ethq/\(network)/query?module=account&action=tokenbalance&address=\(address)&contractaddress=\(token.address)"))
+        let req = URLRequest(url: otherurl("/ethq/\(network)/query?module=account&action=tokenbalance&address=\(address)&contractaddress=\(token.address)"))
         send(apiRequest: req, handler: handler)
     }
     
     public func getTokenTransferLogs(address: EthAddress, contractAddress: String?, handler: @escaping (APIResult<[EthLogEventJSON]>) -> Void) {
         let accountAddress = address.paddedHexString
         let tokenAddressParam = (contractAddress != nil) ? "&address=\(contractAddress!)" : ""
-        let req = URLRequest(url: url("/ethq/\(network)/query?module=logs&action=getLogs&fromBlock=0&toBlock=latest\(tokenAddressParam)&topic0=\(ERC20Token.transferEventSignature)&topic1=\(accountAddress)&topic1_2_opr=or&topic2=\(accountAddress)"))
+        let req = URLRequest(url: otherurl("/ethq/\(network)/query?module=logs&action=getLogs&fromBlock=0&toBlock=latest\(tokenAddressParam)&topic0=\(ERC20Token.transferEventSignature)&topic1=\(accountAddress)&topic1_2_opr=or&topic2=\(accountAddress)"))
         send(apiRequest: req, handler: handler)
     }
 
@@ -66,7 +67,8 @@ extension BRAPIClient {
             return handler(.error(.jsonError(error: jsonError)))
         }
         
-        var req = URLRequest(url: url("/ethq/\(network)/proxy"))
+//        var req = URLRequest(url: url("/ethq/\(network)/proxy"))
+        var req = URLRequest(url: url("/"))
         req.httpMethod = "POST"
         req.httpBody = encodedData
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")

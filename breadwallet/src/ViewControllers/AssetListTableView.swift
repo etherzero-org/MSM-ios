@@ -83,7 +83,7 @@ class AssetListTableView: UITableViewController, Subscriber {
     enum Menu: Int {
         case settings
         case security
-        case support
+//        case support
         
         var content: (String, UIImage) {
             switch self {
@@ -91,12 +91,12 @@ class AssetListTableView: UITableViewController, Subscriber {
                 return (S.MenuButton.settings, #imageLiteral(resourceName: "Settings"))
             case .security:
                 return (S.MenuButton.security, #imageLiteral(resourceName: "Shield"))
-            case .support:
-                return (S.MenuButton.support, #imageLiteral(resourceName: "Faq"))
+//            case .support:
+//                return (S.MenuButton.support, #imageLiteral(resourceName: "Faq"))
             }
         }
         
-        static let allItems: [Menu] = [.settings, .security, .support]
+        static let allItems: [Menu] = [.settings, .security]
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -185,8 +185,8 @@ class AssetListTableView: UITableViewController, Subscriber {
                 didTapSettings?()
             case .security:
                 didTapSecurity?()
-            case .support:
-                didTapSupport?()
+//            case .support:
+//                didTapSupport?()
             }
         }
     }

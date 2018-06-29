@@ -25,13 +25,13 @@ class ModalHeaderView : UIView {
         self.titleLabel.text = title
         self.style = style
         
-        if let faqInfo = faqInfo {
-            self.faq = UIButton.buildFaqButton(articleId: faqInfo, currency: currency)
-        }
+//        if let faqInfo = faqInfo {
+//            self.faq = UIButton.buildFaqButton(articleId: faqInfo, currency: currency)
+//        }
 
         super.init(frame: .zero)
         setupSubviews()
-        addFaqButton()
+//        addFaqButton()
     }
     
     func setTitle(_ title: String) {
@@ -75,15 +75,15 @@ class ModalHeaderView : UIView {
         setColors()
     }
 
-    private func addFaqButton() {
-        guard let faq = faq else { return }
-        addSubview(faq)
-        faq.constrain([
-            faq.constraint((style == .transaction) ? .leading : .trailing, toView: self, constant: 0.0),
-            faq.constraint(.centerY, toView: self, constant: 0.0),
-            faq.constraint(.height, constant: buttonSize),
-            faq.constraint(.width, constant: buttonSize) ])
-    }
+//    private func addFaqButton() {
+//        guard let faq = faq else { return }
+//        addSubview(faq)
+//        faq.constrain([
+//            faq.constraint((style == .transaction) ? .leading : .trailing, toView: self, constant: 0.0),
+//            faq.constraint(.centerY, toView: self, constant: 0.0),
+//            faq.constraint(.height, constant: buttonSize),
+//            faq.constraint(.width, constant: buttonSize) ])
+//    }
 
     private func setColors() {
         switch style {

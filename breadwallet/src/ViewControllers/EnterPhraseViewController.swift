@@ -21,7 +21,7 @@ class EnterPhraseViewController : UIViewController, UIScrollViewDelegate, Custom
     init(walletManager: BTCWalletManager, reason: PhraseEntryReason) {
         self.walletManager = walletManager
         self.enterPhrase = EnterPhraseCollectionViewController(walletManager: walletManager)
-        self.faq = UIButton.buildFaqButton(articleId: ArticleIds.recoverWallet)
+//        self.faq = UIButton.buildFaqButton(articleId: ArticleIds.recoverWallet)
         self.reason = reason
 
         switch reason {
@@ -46,7 +46,7 @@ class EnterPhraseViewController : UIViewController, UIScrollViewDelegate, Custom
     private let instruction = UILabel(font: .customBold(size: 14.0), color: .darkText)
     internal let titleLabel = UILabel.wrapping(font: .customBold(size: 26.0), color: .darkText)
     private let subheader = UILabel.wrapping(font: .customBody(size: 16.0), color: .darkText)
-    private let faq: UIButton
+//    private let faq: UIButton
     private let scrollView = UIScrollView()
     private let container = UIView()
     private let moreInfoButton = UIButton(type: .system)
@@ -69,7 +69,7 @@ class EnterPhraseViewController : UIViewController, UIScrollViewDelegate, Custom
         container.addSubview(subheader)
         container.addSubview(errorLabel)
         container.addSubview(instruction)
-        container.addSubview(faq)
+//        container.addSubview(faq)
         container.addSubview(moreInfoButton)
 
         addChildViewController(enterPhrase)
@@ -90,7 +90,8 @@ class EnterPhraseViewController : UIViewController, UIScrollViewDelegate, Custom
         titleLabel.constrain([
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
             titleLabel.topAnchor.constraint(equalTo: container.topAnchor, constant: C.padding[1]),
-            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: faq.leadingAnchor) ])
+//            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: faq.leadingAnchor)
+            ])
         subheader.constrain([
             subheader.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             subheader.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
@@ -108,11 +109,11 @@ class EnterPhraseViewController : UIViewController, UIScrollViewDelegate, Custom
             errorLabel.topAnchor.constraint(equalTo: enterPhrase.view.bottomAnchor, constant: C.padding[1]),
             errorLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -C.padding[2]),
             errorLabel.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -C.padding[2] )])
-        faq.constrain([
-            faq.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]),
-            faq.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
-            faq.widthAnchor.constraint(equalToConstant: 44.0),
-            faq.heightAnchor.constraint(equalToConstant: 44.0) ])
+//        faq.constrain([
+//            faq.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]),
+//            faq.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+//            faq.widthAnchor.constraint(equalToConstant: 44.0),
+//            faq.heightAnchor.constraint(equalToConstant: 44.0) ])
         moreInfoButton.constrain([
             moreInfoButton.topAnchor.constraint(equalTo: subheader.bottomAnchor, constant: C.padding[2]),
             moreInfoButton.leadingAnchor.constraint(equalTo: subheader.leadingAnchor) ])
@@ -143,7 +144,7 @@ class EnterPhraseViewController : UIViewController, UIScrollViewDelegate, Custom
             moreInfoButton.tap = {
                 Store.trigger(name: .presentFaq(ArticleIds.resetPinWithPaperKey, nil))
             }
-            faq.isHidden = true
+//            faq.isHidden = true
         case .validateForWipingWallet(_):
             saveEvent("enterPhrase.wipeWallet")
             titleLabel.text = S.WipeWallet.title

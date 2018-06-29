@@ -93,7 +93,8 @@ extension TxDetailViewModel {
             
             gasPrice = Amount(amount: tx.gasPrice, currency: feeCurrency, rate: rate).tokenDescription(inUnit: Ethereum.Units.gwei)
             
-            let totalFee = tx.gasPrice * UInt256(tx.gasUsed)
+//            let totalFee = tx.gasPrice * UInt256(tx.gasUsed)
+            let totalFee = UInt256(0)
             let feeAmount = Amount(amount: totalFee, currency: feeCurrency, rate: rate, maximumFractionDigits: Amount.highPrecisionDigits)
             
             // gas used is unknown until confirmed

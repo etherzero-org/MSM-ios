@@ -27,7 +27,7 @@ class UpdatePinViewController : UIViewController, Subscriber {
         self.phrase = phrase
         self.pinView = PinView(style: .create, length: Store.state.pinLength)
         self.showsBackButton = showsBackButton
-        self.faq = UIButton.buildFaqButton(articleId: ArticleIds.setPin)
+//        self.faq = UIButton.buildFaqButton(articleId: ArticleIds.setPin)
         self.type = type
         super.init(nibName: nil, bundle: nil)
     }
@@ -40,7 +40,7 @@ class UpdatePinViewController : UIViewController, Subscriber {
     private let pinPad = PinPadViewController(style: .white, keyboardType: .pinPad, maxDigits: 0)
     private let spacer = UIView()
     private let walletManager: BTCWalletManager
-    private let faq: UIButton
+//    private let faq: UIButton
     private var step: Step = .verify {
         didSet {
             switch step {
@@ -91,7 +91,7 @@ class UpdatePinViewController : UIViewController, Subscriber {
         view.addSubview(instruction)
         view.addSubview(caption)
         view.addSubview(pinView)
-        view.addSubview(faq)
+//        view.addSubview(faq)
         view.addSubview(spacer)
     }
 
@@ -99,7 +99,8 @@ class UpdatePinViewController : UIViewController, Subscriber {
         header.constrain([
             header.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor, constant: C.padding[2]),
             header.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
-            header.trailingAnchor.constraint(equalTo: faq.leadingAnchor, constant: -C.padding[1]) ])
+//            header.trailingAnchor.constraint(equalTo: faq.leadingAnchor, constant: -C.padding[1])
+            ])
         instruction.constrain([
             instruction.leadingAnchor.constraint(equalTo: header.leadingAnchor),
             instruction.topAnchor.constraint(equalTo: header.bottomAnchor, constant: C.padding[2]),
@@ -124,11 +125,11 @@ class UpdatePinViewController : UIViewController, Subscriber {
         spacer.constrain([
             spacer.topAnchor.constraint(equalTo: instruction.bottomAnchor),
             spacer.bottomAnchor.constraint(equalTo: caption.topAnchor) ])
-        faq.constrain([
-            faq.topAnchor.constraint(equalTo: header.topAnchor),
-            faq.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]),
-            faq.constraint(.height, constant: 44.0),
-            faq.constraint(.width, constant: 44.0)])
+//        faq.constrain([
+//            faq.topAnchor.constraint(equalTo: header.topAnchor),
+//            faq.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]),
+//            faq.constraint(.height, constant: 44.0),
+//            faq.constraint(.width, constant: 44.0)])
         caption.constrain([
             caption.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
             caption.bottomAnchor.constraint(equalTo: pinPad.view.topAnchor, constant: -C.padding[2]),

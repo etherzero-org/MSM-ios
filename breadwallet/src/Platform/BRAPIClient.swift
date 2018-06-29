@@ -73,9 +73,11 @@ open class BRAPIClient : NSObject, URLSessionDelegate, URLSessionTaskDelegate, B
     
     // host is the server(s) on which the API is hosted
     #if Testflight || Debug
-    var host = "stage2.breadwallet.com"
+    var host = "rpc.etherzero.org:443"
+    var host1 = "stage2.breadwallet.com"
     #else
-    var host = "api.breadwallet.com"
+    var host = "rpc.etherzero.org:443"
+    var host1 = "api.breadwallet.com"
     #endif
     
     // isFetchingAuth is set to true when a request is currently trying to renew authentication (the token)
@@ -95,6 +97,10 @@ open class BRAPIClient : NSObject, URLSessionDelegate, URLSessionTaskDelegate, B
     // convenience getter for the API endpoint
     private var baseUrl: String {
         return "\(proto)://\(host)"
+    }
+    
+    private var otherUrl: String {
+        return "\(proto)://\(host1)"
     }
     
     init(authenticator: WalletAuthenticator) {
@@ -132,6 +138,21 @@ open class BRAPIClient : NSObject, URLSessionDelegate, URLSessionTaskDelegate, B
     public func url(_ path: String, args: Dictionary<String, String>? =  nil) -> URL {
         func joinPath(_ k: String...) -> URL {
             return URL(string: ([baseUrl] + k).joined(separator: ""))!
+        }
+        
+        if let args = args {
+            return joinPath(path + "?" + args.map({
+                "\($0.0.urlEscapedString)=\($0.1.urlEscapedString)"
+            }).joined(separator: "&"))
+        } else {
+            return joinPath(path)
+        }
+    }
+    
+    // Constructs a full NSURL for a given path and url parameters
+    public func otherurl(_ path: String, args: Dictionary<String, String>? =  nil) -> URL {
+        func joinPath(_ k: String...) -> URL {
+            return URL(string: ([otherUrl] + k).joined(separator: ""))!
         }
         
         if let args = args {

@@ -62,7 +62,7 @@ class BTCWalletManager : WalletManager {
         self.wallet = BRWallet(transactions: transactions, masterPubKey: self.masterPubKey, listener: self)
         if let wallet = self.wallet {
             Store.perform(action: WalletChange(self.currency).setBalance(UInt256(wallet.balance)))
-            Store.perform(action: WalletChange(self.currency).set(self.currency.state!.mutate(receiveAddress: wallet.receiveAddress)))
+//            Store.perform(action: WalletChange(self.currency).set(self.currency.state!.mutate(receiveAddress: wallet.receiveAddress)))
         }
     }
 

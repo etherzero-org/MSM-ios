@@ -361,11 +361,11 @@ extension StoredTokenData {
             do {
                 let path = Bundle.main.path(forResource: "tokens", ofType: "json")
                 let data = try Data(contentsOf: URL(fileURLWithPath: path!))
-                var tokens = try JSONDecoder().decode([StoredTokenData].self, from: data)
-                if E.isDebug {
-                    tokens.append(StoredTokenData.tst)
-                    tokens.append(StoredTokenData.viu)
-                }
+                let tokens = try JSONDecoder().decode([StoredTokenData].self, from: data)
+//                if E.isDebug {
+//                    tokens.append(StoredTokenData.tst)
+//                    tokens.append(StoredTokenData.viu)
+//                }
                 DispatchQueue.main.async {
                     callback(tokens)
                 }
@@ -376,12 +376,12 @@ extension StoredTokenData {
     }
 }
 
-extension StoredTokenData {
-    static var tst: StoredTokenData {
-        return StoredTokenData(address: E.isTestnet ?  "0x722dd3f80bac40c951b51bdd28dd19d435762180" : "0x3efd578b271d034a69499e4a2d933c631d44b9ad", name: "Test Token", code: "TST", colors: ["2FB8E6", "2FB8E6"], decimal: "18")
-    }
-    //this is a random token I was airdropped...using for testing
-    static var viu: StoredTokenData {
-        return StoredTokenData(address: "0x519475b31653e46d20cd09f9fdcf3b12bdacb4f5", name: "VIU Token", code: "VIU", colors: ["2FB8E6", "2FB8E6"], decimal: "18")
-    }
-}
+//extension StoredTokenData {
+//    static var tst: StoredTokenData {
+//        return StoredTokenData(address: E.isTestnet ?  "0x722dd3f80bac40c951b51bdd28dd19d435762180" : "0x3efd578b271d034a69499e4a2d933c631d44b9ad", name: "Test Token", code: "TST", colors: ["2FB8E6", "2FB8E6"], decimal: "18")
+//    }
+//    //this is a random token I was airdropped...using for testing
+//    static var viu: StoredTokenData {
+//        return StoredTokenData(address: "0x519475b31653e46d20cd09f9fdcf3b12bdacb4f5", name: "VIU Token", code: "VIU", colors: ["2FB8E6", "2FB8E6"], decimal: "18")
+//    }
+//}

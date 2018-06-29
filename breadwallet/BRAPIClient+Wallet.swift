@@ -18,7 +18,7 @@ enum RatesResult {
 extension BRAPIClient {
 
     func me() {
-        let req = URLRequest(url: url("/me"))
+        let req = URLRequest(url: otherurl("/me"))
         let task = dataTaskWithRequest(req, authenticated: true, handler: { data, response, err in
             if let data = data {
                 print("me: \(String(describing: String(data: data, encoding: .utf8)))")
@@ -29,7 +29,7 @@ extension BRAPIClient {
 
     func feePerKb(code: String, _ handler: @escaping (_ fees: Fees, _ error: String?) -> Void) {
         let param = code == Currencies.bch.code ? "?currency=bch" : ""
-        let req = URLRequest(url: url("/fee-per-kb\(param)"))
+        let req = URLRequest(url: otherurl("/fee-per-kb\(param)"))
         let task = self.dataTaskWithRequest(req) { (data, response, err) -> Void in
             var regularFeePerKb: uint_fast64_t = 0
             var economyFeePerKb: uint_fast64_t = 0
@@ -61,7 +61,7 @@ extension BRAPIClient {
     func bitcoinExchangeRates(isFallback: Bool = false, _ handler: @escaping (RatesResult) -> Void) {
         let code = Currencies.btc.code
         let param = "?currency=\(code.lowercased())"
-        let request = isFallback ? URLRequest(url: URL(string: fallbackRatesURL)!) : URLRequest(url: url("/rates\(param)"))
+        let request = isFallback ? URLRequest(url: URL(string: fallbackRatesURL)!) : URLRequest(url: otherurl("/rates\(param)"))
         let task = dataTaskWithRequest(request) { (data, response, error) in
             if error == nil, let data = data,
                 let parsedData = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) {
@@ -115,7 +115,7 @@ extension BRAPIClient {
     }
     
     func savePushNotificationToken(_ token: Data) {
-        var req = URLRequest(url: url("/me/push-devices"))
+        var req = URLRequest(url: otherurl("/me/push-devices"))
         req.httpMethod = "POST"
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
         req.setValue("application/json", forHTTPHeaderField: "Accept")
@@ -139,7 +139,7 @@ extension BRAPIClient {
     }
 
     func deletePushNotificationToken(_ token: Data) {
-        var req = URLRequest(url: url("/me/push-devices/apns/\(token.hexString)"))
+        var req = URLRequest(url: otherurl("/me/push-devices/apns/\(token.hexString)"))
         req.httpMethod = "DELETE"
         dataTaskWithRequest(req as URLRequest, authenticated: true, retryCount: 0) { (dat, resp, er) in
             self.log("delete push token resp: \(String(describing: resp))")
@@ -154,7 +154,7 @@ extension BRAPIClient {
 
     func fetchUTXOS(address: String, currency: CurrencyDef, completion: @escaping ([[String: Any]]?)->Void) {
         let path = currency.matches(Currencies.btc) ? "/q/addrs/utxo" : "/q/addrs/utxo?currency=bch"
-        var req = URLRequest(url: url(path))
+        var req = URLRequest(url: otherurl(path))
         req.httpMethod = "POST"
         req.httpBody = "addrs=\(address)".data(using: .utf8)
         dataTaskWithRequest(req, handler: { data, resp, error in

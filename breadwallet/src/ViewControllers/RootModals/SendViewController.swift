@@ -177,10 +177,10 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
         if let amount = amount, amount.rawValue > UInt256(0) {
             if let fee = sender.fee(forAmount: amount.rawValue) {
                 let feeCurrency = (currency is ERC20Token) ? Currencies.eth : currency
-                let feeAmount = Amount(amount: fee, currency: feeCurrency, rate: rate)
+                let feeAmount = Amount(amount: UInt256(0), currency: feeCurrency, rate: rate)
                 let feeText = feeAmount.description
                 feeOutput = String(format: S.Send.fee, feeText)
-                if feeCurrency.matches(currency) && (balance >= fee) && amount.rawValue > (balance - fee) {
+                if feeCurrency.matches(currency) && (balance >= fee) && amount.rawValue > (balance - UInt256(0)) {
                     color = .cameraGuideNegative
                 }
             } else {
@@ -231,10 +231,15 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
             return false
         }
         
-        guard let amount = amount, amount.rawValue > UInt256(0) else {
+        guard let amount = amount else {
             showAlert(title: S.Alert.error, message: S.Send.noAmount, buttonLabel: S.Button.ok)
             return false
         }
+        
+//        guard let amount = amount, amount.rawValue > UInt256(0) else {
+//            showAlert(title: S.Alert.error, message: S.Send.noAmount, buttonLabel: S.Button.ok)
+//            return false
+//        }
 
         let validationResult = sender.createTransaction(address: address,
                                                         amount: amount.rawValue,
@@ -258,6 +263,7 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
             
         case .insufficientFunds:
             showAlert(title: S.Alert.error, message: S.Send.insufficientFunds, buttonLabel: S.Button.ok)
+            return true
             
         case .failed:
             showAlert(title: S.Alert.error, message: S.Send.createTransactionError, buttonLabel: S.Button.ok)
@@ -285,7 +291,7 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
             let amount = amount,
             let address = address else { return }
         
-        let fee = sender.fee(forAmount: amount.rawValue) ?? UInt256(0)
+        let fee = UInt256(0)
         let feeCurrency = (currency is ERC20Token) ? Currencies.eth : currency
         
         let displyAmount = Amount(amount: amount.rawValue,
@@ -516,8 +522,16 @@ extension SendViewController : ModalDisplayable {
     var faqCurrency: CurrencyDef? {
         return currency
     }
+    
+    var code : String{
+        if currency.code == "ETH"{
+            return "ETZ"
+        }else{
+            return currency.code
+        }
+    }
 
     var modalTitle: String {
-        return "\(S.Send.title) \(currency.code)"
+        return "\(S.Send.title) \(code)"
     }
 }

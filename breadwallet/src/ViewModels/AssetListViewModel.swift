@@ -11,11 +11,21 @@ import Foundation
 struct AssetListViewModel {
     let currency: CurrencyDef
     
+    var code : String {
+        if currency.code == "ETH"{
+            return "ETZ"
+        }else{
+            return currency.code
+        }
+
+    }
+    
     var exchangeRate: String {
         guard let rate = currency.state?.currentRate else { return "" }
         let placeholderAmount = Amount(amount: 0, currency: currency, rate: rate)
         guard let rateText = placeholderAmount.localFormat.string(from: NSNumber(value: rate.rate)) else { return "" }
-        return String(format: S.AccountHeader.exchangeRate, rateText, currency.code)
+
+        return String(format: S.AccountHeader.exchangeRate, rateText, code)
     }
     
     var fiatBalance: String {

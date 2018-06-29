@@ -359,7 +359,13 @@ class AmountViewController : UIViewController, Trackable {
         if let rate = selectedRate {
             self.currencyToggle.title = "\(rate.code) (\(rate.currencySymbol))"
         } else {
-            currencyToggle.title = currency.unitName(forDecimals: currencyState.maxDigits)
+            if currency.code == "ETH"{
+                currencyToggle.title = "ETZ"
+            }else{
+                currencyToggle.title = currency.unitName(forDecimals: currencyState.maxDigits)
+            }
+            
+//            currencyToggle.title = currency.unitName(forDecimals: currencyState.maxDigits)
         }
     }
 

@@ -15,7 +15,7 @@ class WalletDisabledView : UIView {
     }
 
     init() {
-        self.faq = UIButton.buildFaqButton(articleId: ArticleIds.walletDisabled)
+//        self.faq = UIButton.buildFaqButton(articleId: ArticleIds.walletDisabled)
         blur = UIVisualEffectView()
         super.init(frame: .zero)
         setup()
@@ -42,7 +42,7 @@ class WalletDisabledView : UIView {
     }
 
     private let label = UILabel(font: .customBold(size: 20.0), color: .darkText)
-    private let faq: UIButton
+//    private let faq: UIButton
     private let blur: UIVisualEffectView
     private let reset = ShadowButton(title: S.UnlockScreen.resetPin, type: .blackTransparent)
     private let effect = UIBlurEffect(style: .light)
@@ -56,7 +56,7 @@ class WalletDisabledView : UIView {
     private func addSubviews() {
         addSubview(blur)
         addSubview(label)
-        addSubview(faq)
+//        addSubview(faq)
         addSubview(reset)
     }
 
@@ -65,14 +65,14 @@ class WalletDisabledView : UIView {
         label.constrain([
             label.centerYAnchor.constraint(equalTo: blur.centerYAnchor),
             label.centerXAnchor.constraint(equalTo: blur.centerXAnchor) ])
-        faq.constrain([
-            faq.leadingAnchor.constraint(equalTo: leadingAnchor, constant: C.padding[2]),
-            faq.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -C.padding[2]),
-            faq.widthAnchor.constraint(equalToConstant: 44.0),
-            faq.heightAnchor.constraint(equalToConstant: 44.0)])
+//        faq.constrain([
+//            faq.leadingAnchor.constraint(equalTo: leadingAnchor, constant: C.padding[2]),
+//            faq.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -C.padding[2]),
+//            faq.widthAnchor.constraint(equalToConstant: 44.0),
+//            faq.heightAnchor.constraint(equalToConstant: 44.0)])
         reset.constrain([
             reset.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[2]),
-            reset.centerYAnchor.constraint(equalTo: faq.centerYAnchor),
+//            reset.centerYAnchor.constraint(equalTo: faq.centerYAnchor),
             reset.heightAnchor.constraint(equalToConstant: C.Sizes.buttonHeight),
             reset.widthAnchor.constraint(equalToConstant: 200.0) ])
 

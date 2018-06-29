@@ -478,9 +478,9 @@ class EthereumSender: EthSenderBase<Ethereum>, Sender {
     fileprivate override func validate(address: String, amount: UInt256) -> SenderValidationResult {
         guard currency.isValidAddress(address) else { return .invalidAddress }
         guard !walletManager.isOwnAddress(address) else { return .ownAddress }
-        if let balance = currency.state?.balance {
-            guard amount < balance else { return .insufficientFunds }
-        }
+//        if let balance = currency.state?.balance {
+//            guard amount < balance else { return .insufficientFunds }
+//        }
         //guard currency.state.currentRate != nil else { return .noExchangeRate } // allow sending without exchange rate
         return .ok
     }
@@ -542,9 +542,9 @@ class ERC20Sender: EthSenderBase<ERC20Token>, Sender {
     fileprivate override func validate(address: String, amount: UInt256) -> SenderValidationResult {
         guard currency.isValidAddress(address) else { return .invalidAddress }
         guard !walletManager.isOwnAddress(address) else { return .ownAddress }
-        if let balance = currency.state?.balance {
-            guard amount <= balance else { return .insufficientFunds }
-        }
+//        if let balance = currency.state?.balance {
+//            guard amount <= balance else { return .insufficientFunds }
+//        }
         // ERC20 token transfers require ETH for gas
         if let ethBalance = Currencies.eth.state?.balance {
             guard ethBalance > UInt256(0) else { return .insufficientGas }

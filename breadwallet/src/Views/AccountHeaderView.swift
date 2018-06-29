@@ -272,8 +272,13 @@ class AccountHeaderView : UIView, GradientDrawable, Subscriber {
 
     func setBalances() {
         guard let rate = exchangeRate else { return }
-        
-        exchangeRateLabel.text = String(format: S.AccountHeader.exchangeRate, rate.localString, currency.code)
+        var code:String = ""
+        if currency.code == "ETH"{
+            code = "ETZ"
+        }else{
+            code = currency.code
+        }
+        exchangeRateLabel.text = String(format: S.AccountHeader.exchangeRate, rate.localString, code)
         
         let amount = Amount(amount: balance, currency: currency, rate: rate)
         

@@ -134,13 +134,23 @@ struct Amount {
         return "\(tokenFormattedValue(inUnit: unit)) \(currency.name(forUnit: unit))"
     }
     
+    var code : String {
+        if currency.code == "ETH"{
+            return "ETZ"
+        }else{
+            return currency.code
+        }
+        
+    }
+    
     var tokenFormat: NumberFormatter {
+        print("XXX\(code)")
         let format = NumberFormatter()
         format.isLenient = true
         format.numberStyle = .currency
         format.generatesDecimalNumbers = true
         format.negativeFormat = "-\(format.positiveFormat!)"
-        format.currencyCode = currency.code
+        format.currencyCode = code
         format.currencySymbol = ""
         format.maximumFractionDigits = min(currency.state?.maxDigits ?? currency.commonUnit.decimals, maximumFractionDigits)
         format.minimumFractionDigits = minimumFractionDigits ?? 0
