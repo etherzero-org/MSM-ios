@@ -62,7 +62,7 @@ class LoginViewController : UIViewController, Subscriber, Trackable {
         button.accessibilityLabel = LAContext.biometricType() == .face ? S.UnlockScreen.faceIdText : S.UnlockScreen.touchIdText
         return button
     }()
-    private let subheader = UILabel(font: .customBody(size: 16.0), color: .darkText)
+    private let subheader = UILabel(font: .customBody(size: 16.0), color: .whiteTint)
     private var pinPadPottom: NSLayoutConstraint?
     private var topControlTop: NSLayoutConstraint?
     private var unlockTimer: Timer?
@@ -172,7 +172,7 @@ class LoginViewController : UIViewController, Subscriber, Trackable {
             topControlTop,
             logo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             logo.heightAnchor.constraint(equalTo: logo.widthAnchor, multiplier: C.Sizes.logoAspectRatio),
-            logo.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.35) ])
+            logo.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1) ])
         if walletManager != nil {
             pinPadBackground.constrain([
                 pinPadBackground.leadingAnchor.constraint(equalTo: pinPad.view.leadingAnchor),
