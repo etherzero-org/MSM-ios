@@ -352,35 +352,7 @@ class ModalPresenter : Subscriber, Trackable {
         settingsNav.setGrayStyle()
         let sections: [SettingsSections] = [.wallet, .preferences, .currencies, .other]
         
-        let currencySettings: [Setting]  = Store.state.currencies.compactMap { (currency) -> Setting? in
-            guard let walletManager = walletManagers[currency.code] else { return nil }
-            guard !(currency is Ethereum) && !(currency is ERC20Token) else { return nil }
-            return Setting(title: currency.name, callback: { [weak self] in
-                guard let `self` = self else { return }
-                let sections = [SettingsSections.currency]
-                var currencySettings = [SettingsSections: [Setting]]()
-                if currency is Bitcoin {
-                    currencySettings = [
-                        SettingsSections.currency: [
-                            Setting(title: S.Settings.importTile, callback: {
-                                settingsNav.dismiss(animated: true, completion: { [weak self] in
-                                    self?.presentKeyImport(walletManager: walletManager as! BTCWalletManager)
-                                })
-                            }),
-                            Setting(title: S.Settings.sync, callback: {
-                                settingsNav.pushViewController(ReScanViewController(currency: currency), animated: true)
-                            }),
-                        ]
-                    ]
-                } else {
-                    //TODO:ETH
-                }
-                
-                let pageTitle = String(format: S.Settings.currencyPageTitle, currency.name)
-                let currencySettingsVC = SettingsViewController(sections: sections, rows: currencySettings, optionalTitle: pageTitle)
-                settingsNav.pushViewController(currencySettingsVC, animated: true)
-            })
-            } + [
+        let currencySettings: [Setting]  = [
                 Setting(title: S.Settings.resetCurrencies, callback: {
                     settingsNav.dismiss(animated: true, completion: {
                         Store.trigger(name: .resetDisplayCurrencies)
@@ -441,14 +413,14 @@ class ModalPresenter : Subscriber, Trackable {
             ],
             SettingsSections.currencies: currencySettings,
             SettingsSections.other: [
-                Setting(title: S.Settings.shareData, callback: {
-                    settingsNav.pushViewController(ShareDataViewController(), animated: true)
-                }),
-                Setting(title: S.Settings.review, callback: {
-                    if let url = URL(string: C.reviewLink) {
-                        UIApplication.shared.openURL(url)
-                    }
-                }),
+//                Setting(title: S.Settings.shareData, callback: {
+//                    settingsNav.pushViewController(ShareDataViewController(), animated: true)
+//                }),
+//                Setting(title: S.Settings.review, callback: {
+//                    if let url = URL(string: C.reviewLink) {
+//                        UIApplication.shared.openURL(url)
+//                    }
+//                }),
                 Setting(title: S.Settings.about, callback: {
                     settingsNav.pushViewController(AboutViewController(), animated: true)
                 }),

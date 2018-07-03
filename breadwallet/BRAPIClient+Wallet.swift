@@ -90,14 +90,15 @@ extension BRAPIClient {
 
     /// Fetches all token exchange rates in BTC from CoinMarketCap
     func tokenExchangeRates(_ handler: @escaping (RatesResult) -> Void) {
-        let request = URLRequest(url: URL(string: "https://api.coinmarketcap.com/v1/ticker/?limit=1000&convert=BTC")!)
+//        let request = URLRequest(url: URL(string: "https://api.coinmarketcap.com/v1/ticker/?limit=1000&convert=BTC")!)
+        let request = URLRequest(url: URL(string: "https://api.coinmarketcap.com/v2/ticker/2843/?convert=BTC&limit=10&structure=array")!)
         dataTaskWithRequest(request, handler: { data, response, error in
             if error == nil, let data = data {
                 do {
                     let codes = Store.state.currencies.map({ $0.code.lowercased() })
-                    let tickers = try JSONDecoder().decode([Ticker].self, from: data)
-                    let rates: [Rate] = tickers.compactMap({ ticker in
-                        guard ticker.btcRate != nil, let rate = Double(ticker.btcRate!) else { return nil }
+                    let tickers = try JSONDecoder().decode(owner.self, from: data)
+                    let rates: [Rate] = tickers.data.compactMap({ ticker in
+                        guard ticker.quotes.btcRate.price != nil, let rate: Double = ticker.quotes.btcRate.price else { return nil }
                         guard codes.contains(ticker.symbol.lowercased()) else { return nil }
                         return Rate(code: Currencies.btc.code,
                                     name: ticker.name,
@@ -190,6 +191,40 @@ struct Ticker: Codable {
         case btcRate = "price_btc"
     }
 }
+
+struct Quotes : Codable{
+    
+    struct Price : Codable {
+        var price : Double?
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case usdRate = "USD"
+        case btcRate = "BTC"
+    }
+    
+    var usdRate : Price
+    var btcRate : Price
+    
+}
+
+struct owner: Codable {
+    struct Repo: Codable {
+        var name: String
+        var symbol: String
+        var quotes: Quotes
+        
+        enum CodingKeys: String, CodingKey {
+            case name
+            case symbol
+            case quotes
+        }
+
+    }
+    
+    var data: [Repo]
+}
+
 
 private func pushNotificationEnvironment() -> String {
     return E.isDebug ? "d" : "p" //development or production
