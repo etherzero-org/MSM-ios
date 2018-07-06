@@ -86,10 +86,10 @@ class EditWalletsViewController : UIViewController {
         tableView.separatorStyle = .singleLine
         tableView.separatorInset = UIEdgeInsetsMake(0, C.padding[2], 0, C.padding[2])
 
-        if type == .manage {
-            tableView.setEditing(true, animated: true)
-            addMenuButton()
-        }
+//        if type == .manage {
+//            tableView.setEditing(true, animated: true)
+//            addMenuButton()
+//        }
         addSearchBar()
     }
 

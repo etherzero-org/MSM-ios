@@ -121,9 +121,9 @@ class BiometricsSettingsViewController : UIViewController, Subscriber {
     private func addFaqButton() {
         let negativePadding = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         negativePadding.width = -16.0
-        let faqButton = UIButton.buildFaqButton(articleId: ArticleIds.enableTouchId)
-        faqButton.tintColor = .white
-        navigationItem.rightBarButtonItems = [negativePadding, UIBarButtonItem(customView: faqButton)]
+//        let faqButton = UIButton.buildFaqButton(articleId: ArticleIds.enableTouchId)
+//        faqButton.tintColor = .white
+//        navigationItem.rightBarButtonItems = [negativePadding, UIBarButtonItem(customView: faqButton)]
     }
 
     private var textViewText: NSAttributedString {

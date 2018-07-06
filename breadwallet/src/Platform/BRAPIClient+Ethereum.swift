@@ -38,7 +38,7 @@ extension BRAPIClient {
     }
 
     public func getEthTxList(address: EthAddress, handler: @escaping (APIResult<[EthTxJSON]>)->Void) {
-        let req = URLRequest(url: otherurl("/ethq/\(network)/query?module=account&action=txlist&address=\(address)&sort=desc"))
+        let req = URLRequest(url: testurl("/etzq/api/v1/getEtzTxlist?address=\(address)"))
 //        let req = URLRequest(url: url("/ethq/\(network)/query?module=account&action=txlist&address=\(address)&sort=desc"))
         send(apiRequest: req, handler: handler)
     }

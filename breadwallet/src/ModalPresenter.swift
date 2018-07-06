@@ -376,9 +376,9 @@ class ModalPresenter : Subscriber, Trackable {
                     }
                     start.addCloseNavigationItem(tintColor: .white)
                     start.navigationItem.title = S.WipeWallet.title
-                    let faqButton = UIButton.buildFaqButton(articleId: ArticleIds.wipeWallet)
-                    faqButton.tintColor = .white
-                    start.navigationItem.rightBarButtonItems = [UIBarButtonItem.negativePadding, UIBarButtonItem(customView: faqButton)]
+//                    let faqButton = UIButton.buildFaqButton(articleId: ArticleIds.wipeWallet)
+//                    faqButton.tintColor = .white
+//                    start.navigationItem.rightBarButtonItems = [UIBarButtonItem.negativePadding, UIBarButtonItem(customView: faqButton)]
                     nc.viewControllers = [start]
                     settingsNav.dismiss(animated: true, completion: { [weak self] in
                         self?.topViewController?.present(nc, animated: true, completion: nil)
@@ -526,9 +526,9 @@ class ModalPresenter : Subscriber, Trackable {
         })
         start.addCloseNavigationItem(tintColor: .white)
         start.navigationItem.title = S.SecurityCenter.Cells.paperKeyTitle
-        let faqButton = UIButton.buildFaqButton(articleId: ArticleIds.paperKey)
-        faqButton.tintColor = .white
-        start.navigationItem.rightBarButtonItems = [UIBarButtonItem.negativePadding, UIBarButtonItem(customView: faqButton)]
+//        let faqButton = UIButton.buildFaqButton(articleId: ArticleIds.paperKey)
+//        faqButton.tintColor = .white
+//        start.navigationItem.rightBarButtonItems = [UIBarButtonItem.negativePadding, UIBarButtonItem(customView: faqButton)]
         paperPhraseNavigationController.viewControllers = [start]
         vc.present(paperPhraseNavigationController, animated: true, completion: nil)
     }
@@ -618,9 +618,9 @@ class ModalPresenter : Subscriber, Trackable {
         let start = StartImportViewController(walletManager: walletManager)
         start.addCloseNavigationItem(tintColor: .white)
         start.navigationItem.title = S.Import.title
-        let faqButton = UIButton.buildFaqButton(articleId: ArticleIds.importWallet, currency: walletManager.currency)
-        faqButton.tintColor = .white
-        start.navigationItem.rightBarButtonItems = [UIBarButtonItem.negativePadding, UIBarButtonItem(customView: faqButton)]
+//        let faqButton = UIButton.buildFaqButton(articleId: ArticleIds.importWallet, currency: walletManager.currency)
+//        faqButton.tintColor = .white
+//        start.navigationItem.rightBarButtonItems = [UIBarButtonItem.negativePadding, UIBarButtonItem(customView: faqButton)]
         nc.viewControllers = [start]
         topViewController?.present(nc, animated: true, completion: nil)
     }

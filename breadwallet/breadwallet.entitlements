@@ -8,7 +8,7 @@
 	<string>NSFileProtectionComplete</string>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.org.etherzero.breadwallet</string>
+		<string>group.org.etherzero.etzwallet</string>
 	</array>
 </dict>
 </plist>

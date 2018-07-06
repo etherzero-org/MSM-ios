@@ -105,6 +105,7 @@ extension BRAPIClient {
                                     rate: rate,
                                     reciprocalCode: ticker.symbol.lowercased())
                     })
+                    print("当前币价:\(rates)")
                     handler(.success(rates))
                 } catch let e {
                     handler(.error(e.localizedDescription))

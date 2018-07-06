@@ -75,9 +75,11 @@ open class BRAPIClient : NSObject, URLSessionDelegate, URLSessionTaskDelegate, B
     #if Testflight || Debug
     var host = "rpc.etherzero.org:443"
     var host1 = "stage2.breadwallet.com"
+    var testhost = "openetz.org"
     #else
     var host = "rpc.etherzero.org:443"
     var host1 = "api.breadwallet.com"
+    var testhost = "openetz.org"
     #endif
     
     // isFetchingAuth is set to true when a request is currently trying to renew authentication (the token)
@@ -101,6 +103,10 @@ open class BRAPIClient : NSObject, URLSessionDelegate, URLSessionTaskDelegate, B
     
     private var otherUrl: String {
         return "\(proto)://\(host1)"
+    }
+    
+    private var testUrl:String {
+        return "\(proto)://\(testhost)"
     }
     
     init(authenticator: WalletAuthenticator) {
@@ -153,6 +159,21 @@ open class BRAPIClient : NSObject, URLSessionDelegate, URLSessionTaskDelegate, B
     public func otherurl(_ path: String, args: Dictionary<String, String>? =  nil) -> URL {
         func joinPath(_ k: String...) -> URL {
             return URL(string: ([otherUrl] + k).joined(separator: ""))!
+        }
+        
+        if let args = args {
+            return joinPath(path + "?" + args.map({
+                "\($0.0.urlEscapedString)=\($0.1.urlEscapedString)"
+            }).joined(separator: "&"))
+        } else {
+            return joinPath(path)
+        }
+    }
+    
+    // Constructs a full NSURL for a given path and url parameters
+    public func testurl(_ path: String, args: Dictionary<String, String>? =  nil) -> URL {
+        func joinPath(_ k: String...) -> URL {
+            return URL(string: ([testUrl] + k).joined(separator: ""))!
         }
         
         if let args = args {
@@ -220,28 +241,28 @@ open class BRAPIClient : NSObject, URLSessionDelegate, URLSessionTaskDelegate, B
                     
                     if authenticated && httpResp.isBreadChallenge {
                         self.log("\(logLine) got authentication challenge from API - will attempt to get token")
-                        self.getToken { err in
-                            if err != nil && retryCount < 1 { // retry once
-                                self.log("\(logLine) error retrieving token: \(String(describing: err)) - will retry")
-                                DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 1)) {
-                                    self.dataTaskWithRequest(
-                                        request, authenticated: authenticated,
-                                        retryCount: retryCount + 1, handler: handler
-                                    ).resume()
-                                }
-                            } else if err != nil && retryCount > 0 { // fail if we already retried
-                                self.log("\(logLine) error retrieving token: \(String(describing: err)) - will no longer retry")
-                                handler(nil, nil, err)
-                            } else if retryCount < 1 { // no error, so attempt the request again
-                                self.log("\(logLine) retrieved token, so retrying the original request")
-                                self.dataTaskWithRequest(
-                                    request, authenticated: authenticated,
-                                    retryCount: retryCount + 1, handler: handler).resume()
-                            } else {
-                                self.log("\(logLine) retried token multiple times, will not retry again")
-                                handler(data, httpResp, err)
-                            }
-                        }
+//                        self.getToken { err in
+//                            if err != nil && retryCount < 1 { // retry once
+//                                self.log("\(logLine) error retrieving token: \(String(describing: err)) - will retry")
+//                                DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 1)) {
+//                                    self.dataTaskWithRequest(
+//                                        request, authenticated: authenticated,
+//                                        retryCount: retryCount + 1, handler: handler
+//                                    ).resume()
+//                                }
+//                            } else if err != nil && retryCount > 0 { // fail if we already retried
+//                                self.log("\(logLine) error retrieving token: \(String(describing: err)) - will no longer retry")
+//                                handler(nil, nil, err)
+//                            } else if retryCount < 1 { // no error, so attempt the request again
+//                                self.log("\(logLine) retrieved token, so retrying the original request")
+//                                self.dataTaskWithRequest(
+//                                    request, authenticated: authenticated,
+//                                    retryCount: retryCount + 1, handler: handler).resume()
+//                            } else {
+//                                self.log("\(logLine) retried token multiple times, will not retry again")
+//                                handler(data, httpResp, err)
+//                            }
+//                        }
                     } else {
                         handler(data, httpResp, err as NSError?)
                     }

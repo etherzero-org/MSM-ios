@@ -407,7 +407,7 @@ protocol EthereumClient : class {
 
     func getTransactions (address: String, completion: @escaping TransactionsHandler) -> Void
     
-    func getLogs (address: String, contract: String?, event: String, completion: @escaping LogsHandler) -> Void
+//    func getLogs (address: String, contract: String?, event: String, completion: @escaping LogsHandler) -> Void
     
     func getBlockNumber(completion: @escaping AmountHandler) -> Void
     
@@ -675,6 +675,7 @@ class EthereumLightNode: EthereumPointer {
                 this.client?.getTransactions(address: asUTF8String(address!), completion: { txs in
                     txs.forEach {
                         print("announcing tx: \($0.hash)")
+                        print("YYY\($0)")
                         lightNodeAnnounceTransaction(core,
                                                      rid,
                                                      $0.hash,
@@ -701,29 +702,29 @@ class EthereumLightNode: EthereumPointer {
             
             // funcGetLogs
             { (this, core, contract, address, event, rid) in
-                guard let this = this.map ({ Unmanaged<EthereumLightNode>.fromOpaque($0).takeUnretainedValue() }) else { return }
-                this.client?.getLogs (address: asUTF8String(address!),
-                                      contract: contract.map { asUTF8String($0) },
-                                      event: asUTF8String(event!),
-                                      completion: { logs in
-                                        logs.forEach {
-                                            var cTopics = $0.topics.map { UnsafePointer<Int8>(strdup($0)) }
-                                            defer { cTopics.forEach { free(UnsafeMutablePointer(mutating: $0)) } }
-                                            lightNodeAnnounceLog(core,
-                                                                 rid,
-                                                                 $0.transactionHash,
-                                                                 $0.address,
-                                                                 Int32($0.topics.count),
-                                                                 &cTopics,
-                                                                 $0.data,
-                                                                 $0.gasPrice,
-                                                                 $0.gasUsed,
-                                                                 $0.logIndex,
-                                                                 $0.blockNumber,
-                                                                 $0.transactionIndex,
-                                                                 $0.timeStamp)
-                                        }
-                })
+//                guard let this = this.map ({ Unmanaged<EthereumLightNode>.fromOpaque($0).takeUnretainedValue() }) else { return }
+//                this.client?.getLogs (address: asUTF8String(address!),
+//                                      contract: contract.map { asUTF8String($0) },
+//                                      event: asUTF8String(event!),
+//                                      completion: { logs in
+//                                        logs.forEach {
+//                                            var cTopics = $0.topics.map { UnsafePointer<Int8>(strdup($0)) }
+//                                            defer { cTopics.forEach { free(UnsafeMutablePointer(mutating: $0)) } }
+//                                            lightNodeAnnounceLog(core,
+//                                                                 rid,
+//                                                                 $0.transactionHash,
+//                                                                 $0.address,
+//                                                                 Int32($0.topics.count),
+//                                                                 &cTopics,
+//                                                                 $0.data,
+//                                                                 $0.gasPrice,
+//                                                                 $0.gasUsed,
+//                                                                 $0.logIndex,
+//                                                                 $0.blockNumber,
+//                                                                 $0.transactionIndex,
+//                                                                 $0.timeStamp)
+//                                        }
+//                })
         },
             
             // funcGetBlockNumber

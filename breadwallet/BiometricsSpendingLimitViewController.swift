@@ -42,9 +42,9 @@ class BiometricsSpendingLimitViewController: UITableViewController, Subscriber {
         navigationItem.titleView = titleLabel
 
         //TODO:ETH pass currency to faq button
-        let faqButton = UIButton.buildFaqButton(articleId: ArticleIds.touchIdSpendingLimit)
-        faqButton.tintColor = .darkText
-        navigationItem.rightBarButtonItems = [UIBarButtonItem.negativePadding, UIBarButtonItem(customView: faqButton)]
+//        let faqButton = UIButton.buildFaqButton(articleId: ArticleIds.touchIdSpendingLimit)
+//        faqButton.tintColor = .darkText
+//        navigationItem.rightBarButtonItems = [UIBarButtonItem.negativePadding, UIBarButtonItem(customView: faqButton)]
 
         body.text = S.TouchIdSpendingLimit.body
 
