@@ -6,7 +6,7 @@ Bread is the best way to get started with bitcoin. Our simple, streamlined desig
 
 ### Completely decentralized
 
-Unlike other iOS bitcoin wallets, **Bread** is a standalone bitcoin client. It connects directly to the bitcoin network using [SPV](https://en.bitcoin.it/wiki/Thin_Client_Security#Header-Only_Clients) mode, and doesn't rely on servers that can be hacked or disabled. Even if Bread the company disappears, the app will continue to function, allowing users to access their money at any time.
+Unlike other iOS bitcoin wallets, **ETZ** is a standalone bitcoin client. It connects directly to the bitcoin network using [SPV](https://en.bitcoin.it/wiki/Thin_Client_Security#Header-Only_Clients) mode, and doesn't rely on servers that can be hacked or disabled. Even if Bread the company disappears, the app will continue to function, allowing users to access their money at any time.
 
 ### Cutting-edge security
 
@@ -15,7 +15,7 @@ Unlike other iOS bitcoin wallets, **Bread** is a standalone bitcoin client. It c
 
 ### Localization
 
-**Bread** is available in the following languages:
+**ETZ** is available in the following languages:
 
 - Chinese (Simplified and traditional)
 - Danish
