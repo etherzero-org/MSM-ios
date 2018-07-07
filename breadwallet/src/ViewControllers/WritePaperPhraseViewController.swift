@@ -70,9 +70,9 @@ class WritePaperPhraseViewController: UIViewController {
             self?.dismiss(animated: true, completion: nil)
         }
 
-        let faqButton = UIButton.buildFaqButton(articleId: ArticleIds.writePhrase)
-        faqButton.tintColor = .white
-        navigationItem.rightBarButtonItems = [UIBarButtonItem.negativePadding, UIBarButtonItem(customView: faqButton)]
+//        let faqButton = UIButton.buildFaqButton(articleId: ArticleIds.writePhrase)
+//        faqButton.tintColor = .white
+//        navigationItem.rightBarButtonItems = [UIBarButtonItem.negativePadding, UIBarButtonItem(customView: faqButton)]
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
