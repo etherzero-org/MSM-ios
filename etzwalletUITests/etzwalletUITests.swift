@@ -1,14 +1,14 @@
 //
-//  breadwalletUITests.swift
-//  breadwalletUITests
+//  etzwalletUITests.swift
+//  etzwalletUITests
 //
 //  Created by ajv on 10/5/16.
-//  Copyright © 2016 breadwallet LLC. All rights reserved.
+//  Copyright © 2016 etzwallet LLC. All rights reserved.
 //
 
 import XCTest
 
-class breadwalletUITests: XCTestCase {
+class etzwalletUITests: XCTestCase {
         
     override func setUp() {
         super.setUp()
