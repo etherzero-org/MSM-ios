@@ -46,7 +46,7 @@ class EditWalletsViewController : UIViewController {
     private let cellIdentifier = "CellIdentifier"
     private let kvStore: BRReplicatedKVStore
     private var metaData: CurrencyListMetaData
-    private let localCurrencies: [CurrencyDef] = [Currencies.btc, Currencies.bch, Currencies.eth, Currencies.brd]
+    private let localCurrencies: [CurrencyDef] = [Currencies.btc, Currencies.eth, Currencies.brd]
     private let tableView = UITableView()
     private let searchBar = UISearchBar()
 
@@ -86,10 +86,10 @@ class EditWalletsViewController : UIViewController {
         tableView.separatorStyle = .singleLine
         tableView.separatorInset = UIEdgeInsetsMake(0, C.padding[2], 0, C.padding[2])
 
-//        if type == .manage {
-//            tableView.setEditing(true, animated: true)
-//            addMenuButton()
-//        }
+        if type == .manage {
+            tableView.setEditing(true, animated: true)
+            addMenuButton()
+        }
         addSearchBar()
     }
 

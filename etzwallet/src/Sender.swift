@@ -55,7 +55,7 @@ protocol Sender: class {
     
     func validate(paymentRequest: PaymentProtocolRequest, ignoreUsedAddress: Bool, ignoreIdentityNotCertified: Bool) -> SenderValidationResult
     
-    func createTransaction(address: String, amount: UInt256, comment: String?) -> SenderValidationResult
+    func createTransaction(address: String, amount: UInt256, comment: String?,data:String?) -> SenderValidationResult
     func createTransaction(forPaymentProtocol: PaymentProtocolRequest) -> SenderValidationResult
     
     func sendTransaction(allowBiometrics: Bool,
@@ -77,6 +77,7 @@ class SenderBase<CurrencyType: CurrencyDef, WalletType: WalletManager> {
     fileprivate let walletManager: WalletType
     fileprivate let kvStore: BRReplicatedKVStore
     fileprivate var comment: String?
+    fileprivate var data: String?
     fileprivate var readyToSend: Bool = false
     
     // MARK: Init
@@ -99,6 +100,7 @@ class SenderBase<CurrencyType: CurrencyDef, WalletType: WalletManager> {
     
     func reset() {
         comment = nil
+        data = nil
         readyToSend = false
     }
 }
@@ -106,6 +108,7 @@ class SenderBase<CurrencyType: CurrencyDef, WalletType: WalletManager> {
 // MARK: -
 
 class BitcoinSender: SenderBase<Bitcoin, BTCWalletManager>, Sender {
+    
     
     // MARK: Sender
     
@@ -123,7 +126,7 @@ class BitcoinSender: SenderBase<Bitcoin, BTCWalletManager>, Sender {
         return UInt256(fee)
     }
     
-    func createTransaction(address: String, amount: UInt256, comment: String?) -> SenderValidationResult {
+    func createTransaction(address: String, amount: UInt256, comment: String?,data:String?) -> SenderValidationResult {
         let btcAddress = currency.matches(Currencies.bch) ? address.bitcoinAddr : address
         let result = validate(address: btcAddress, amount: amount)
         guard case .ok = result else { return result }
@@ -410,13 +413,14 @@ class EthSenderBase<CurrencyType: CurrencyDef> : SenderBase<CurrencyType, EthWal
         walletManager.gasPrice = fees.gasPrice
     }
     
-    func createTransaction(address: String, amount: UInt256, comment: String?) -> SenderValidationResult {
+    func createTransaction(address: String, amount: UInt256, comment: String?,data:String?) -> SenderValidationResult {
         let result = validate(address: address, amount: amount)
         guard case .ok = result else { return result }
         
         self.amount = amount
         self.address = address
         self.comment = comment
+        self.data = data
         readyToSend = true
         
         return result

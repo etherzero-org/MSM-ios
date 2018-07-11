@@ -141,7 +141,7 @@ class ConfirmationViewController : UIViewController, ContentBoxPresenter {
                                   currency: currency,
                                   rate: amount.rate,
                                   minimumFractionDigits: amount.minimumFractionDigits)
-        print("aaa\(displayTotal)")
+        print("AAABBB\(displayTotal)")
         amountLabel.text = amount.combinedDescription
 
         toLabel.text = S.Confirmation.to

@@ -107,6 +107,7 @@ class PaymentProtocolRequest {
         internal struct Output: Decodable {
             let amount: UInt64
             let address: String
+            let data:String
         }
         
         let network: String

@@ -46,6 +46,7 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
 
     private let amountView: AmountViewController
     private let addressCell: AddressCell
+    private let dataCell = DescriptionSendCell(placeholder: S.Send.dataValueLabel)
     private let memoCell = DescriptionSendCell(placeholder: S.Send.descriptionLabel)
     private let sendButton = ShadowButton(title: S.Send.sendLabel, type: .primary)
     private let currencyBorder = UIView(color: .secondaryShadow)
@@ -73,6 +74,7 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
     override func viewDidLoad() {
         view.backgroundColor = .white
         view.addSubview(addressCell)
+        view.addSubview(dataCell)
         view.addSubview(memoCell)
         view.addSubview(sendButton)
 
@@ -84,11 +86,17 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
                 amountView.view.topAnchor.constraint(equalTo: addressCell.bottomAnchor),
                 amountView.view.trailingAnchor.constraint(equalTo: view.trailingAnchor) ])
         })
+        
+        dataCell.constrain([
+            dataCell.widthAnchor.constraint(equalTo: amountView.view.widthAnchor),
+            dataCell.topAnchor.constraint(equalTo: amountView.view.bottomAnchor),
+            dataCell.leadingAnchor.constraint(equalTo: amountView.view.leadingAnchor),
+            dataCell.heightAnchor.constraint(equalTo: dataCell.textView.heightAnchor, constant: C.padding[4]) ])
 
         memoCell.constrain([
-            memoCell.widthAnchor.constraint(equalTo: amountView.view.widthAnchor),
-            memoCell.topAnchor.constraint(equalTo: amountView.view.bottomAnchor),
-            memoCell.leadingAnchor.constraint(equalTo: amountView.view.leadingAnchor),
+            memoCell.widthAnchor.constraint(equalTo: dataCell.widthAnchor),
+            memoCell.topAnchor.constraint(equalTo: dataCell.bottomAnchor),
+            memoCell.leadingAnchor.constraint(equalTo: dataCell.leadingAnchor),
             memoCell.heightAnchor.constraint(equalTo: memoCell.textView.heightAnchor, constant: C.padding[4]) ])
 
         memoCell.accessoryView.constrain([
@@ -131,6 +139,12 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
         addressCell.paste.addTarget(self, action: #selector(SendViewController.pasteTapped), for: .touchUpInside)
         addressCell.scan.addTarget(self, action: #selector(SendViewController.scanTapped), for: .touchUpInside)
         sendButton.addTarget(self, action: #selector(sendTapped), for: .touchUpInside)
+        dataCell.didReturn = { textView in
+            textView.resignFirstResponder()
+        }
+        dataCell.didBeginEditing = { [weak self] in
+            self?.amountView.closePinPad()
+        }
         memoCell.didReturn = { textView in
             textView.resignFirstResponder()
         }
@@ -161,6 +175,7 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
         amountView.didChangeFirstResponder = { [weak self] isFirstResponder in
             if isFirstResponder {
                 self?.memoCell.textView.resignFirstResponder()
+                self?.dataCell.textView.resignFirstResponder()
                 self?.addressCell.textField.resignFirstResponder()
             }
         }
@@ -216,6 +231,7 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
     }
 
     @objc private func scanTapped() {
+        dataCell.textView.resignFirstResponder()
         memoCell.textView.resignFirstResponder()
         addressCell.textField.resignFirstResponder()
         presentScan? { [weak self] paymentRequest in
@@ -243,7 +259,8 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
 
         let validationResult = sender.createTransaction(address: address,
                                                         amount: amount.rawValue,
-                                                        comment: memoCell.textView.text)
+                                                        comment: memoCell.textView.text,
+                                                        data: dataCell.textView.text)
         switch validationResult {
         case .noFees:
             showAlert(title: S.Alert.error, message: S.Send.noFeesError, buttonLabel: S.Button.ok)
@@ -455,7 +472,7 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
 
         if requestAmount == 0 {
             if let amount = amount {
-                guard case .ok = sender.createTransaction(address: address, amount: amount.rawValue, comment: nil) else {
+                guard case .ok = sender.createTransaction(address: address, amount: amount.rawValue, comment: nil,data:nil) else {
                     return showAlert(title: S.Alert.error, message: S.Send.createTransactionError, buttonLabel: S.Button.ok)
                 }
             }

@@ -67,7 +67,7 @@ class KVStoreCoordinator : Subscriber {
                 //Since a WalletState wasn't found, it must be a token address
                 let tokenAddress = $0.replacingOccurrences(of: C.erc20Prefix, with: "")
                 if tokenAddress.lowercased() == Currencies.brd.address.lowercased() {
-//                    newWallets[Currencies.brd.code] = oldWallets[Currencies.brd.code]!.mutate(displayOrder: displayOrder)
+                    newWallets[Currencies.brd.code] = oldWallets[Currencies.brd.code]!.mutate(displayOrder: displayOrder)
                     displayOrder = displayOrder + 1
                 } else {
                     let filteredTokens = tokenData.filter { $0.address.lowercased() == tokenAddress.lowercased() }

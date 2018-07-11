@@ -144,7 +144,7 @@ struct Amount {
     }
     
     var tokenFormat: NumberFormatter {
-        print("XXX\(code)")
+//        print("XXX\(code)")
         let format = NumberFormatter()
         format.isLenient = true
         format.numberStyle = .currency
