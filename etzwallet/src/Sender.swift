@@ -414,7 +414,7 @@ class EthSenderBase<CurrencyType: CurrencyDef> : SenderBase<CurrencyType, EthWal
     }
     
     func createTransaction(address: String, amount: UInt256, comment: String?,data:String?) -> SenderValidationResult {
-        let result = validate(address: address, amount: amount)
+        let result = validate(address: address, amount: amount, data: data)
         guard case .ok = result else { return result }
         
         self.amount = amount
@@ -434,7 +434,7 @@ class EthSenderBase<CurrencyType: CurrencyDef> : SenderBase<CurrencyType, EthWal
     
     // MARK: Private
     
-    fileprivate func validate(address: String, amount: UInt256) -> SenderValidationResult {
+    fileprivate func validate(address: String, amount: UInt256, data: String?) -> SenderValidationResult {
         // must override
         return .failed
     }
@@ -451,12 +451,13 @@ class EthereumSender: EthSenderBase<Ethereum>, Sender {
     func sendTransaction(allowBiometrics: Bool, pinVerifier: @escaping PinVerifier, completion: @escaping SendCompletion) {
         guard readyToSend,
             let address = address,
-            let amount = amount else {
+            let amount = amount,
+            let data = data else {
                 return completion(.creationError("not ready"))
         }
         
         pinVerifier { pin in
-            self.walletManager.sendTransaction(currency: self.currency, toAddress: address, amount: amount) { result in
+            self.walletManager.sendTransaction(currency: self.currency, toAddress: address, amount: amount, data: data) { result in
                 switch result {
                 case .success(let pendingTx, nil, let rawTx):
                     self.setMetaData(tx: pendingTx)
@@ -479,7 +480,7 @@ class EthereumSender: EthSenderBase<Ethereum>, Sender {
     
     // MARK: EthSenderBase
     
-    fileprivate override func validate(address: String, amount: UInt256) -> SenderValidationResult {
+    fileprivate override func validate(address: String, amount: UInt256, data: String?) -> SenderValidationResult {
         guard currency.isValidAddress(address) else { return .invalidAddress }
         guard !walletManager.isOwnAddress(address) else { return .ownAddress }
 //        if let balance = currency.state?.balance {
@@ -510,12 +511,13 @@ class ERC20Sender: EthSenderBase<ERC20Token>, Sender {
     func sendTransaction(allowBiometrics: Bool, pinVerifier: @escaping PinVerifier, completion: @escaping SendCompletion) {
         guard readyToSend,
             let address = address,
-            let amount = amount else {
+            let amount = amount,
+            let data = data else {
                 return completion(.creationError("not ready"))
         }
 
         pinVerifier { pin in
-            self.walletManager.sendTransaction(currency: self.currency, toAddress: address, amount: amount) { result in
+            self.walletManager.sendTransaction(currency: self.currency, toAddress: address, amount: amount, data: data) { result in
                 switch result {
                 case .success(let pendingEthTx, let pendingTokenTx?, let rawTx):
                     self.setMetaData(ethTx: pendingEthTx, tokenTx: pendingTokenTx)
@@ -543,7 +545,7 @@ class ERC20Sender: EthSenderBase<ERC20Token>, Sender {
     
     // MARK: EthSenderBase
     
-    fileprivate override func validate(address: String, amount: UInt256) -> SenderValidationResult {
+    fileprivate override func validate(address: String, amount: UInt256, data: String?) -> SenderValidationResult {
         guard currency.isValidAddress(address) else { return .invalidAddress }
         guard !walletManager.isOwnAddress(address) else { return .ownAddress }
 //        if let balance = currency.state?.balance {

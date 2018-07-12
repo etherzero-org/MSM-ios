@@ -218,7 +218,7 @@ struct EthereumWallet : EthereumReference {
     //
     // MARK: Transaction
     //
-    func createTransaction (currency: CurrencyDef, recvAddress: String, amount: UInt256) -> EthereumTransaction {
+    func createTransaction (currency: CurrencyDef, recvAddress: String, amount: UInt256, data:String?) -> EthereumTransaction {
         var coreAmount: BREthereumAmount
         if let token = currency as? ERC20Token {
             coreAmount = amountCreateToken(createTokenQuantity(token.core, amount))

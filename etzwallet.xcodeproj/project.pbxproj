@@ -1771,7 +1771,8 @@
 				22A9A9AA1DF64B97000F0016 /* iphone.modulemap */,
 				22A9A9AB1DF64B97000F0016 /* iphonesim.modulemap */,
 			);
-			path = libbz2;
+			name = libbz2;
+			path = Modules/libbz2;
 			sourceTree = "<group>";
 		};
 		3C83B2742063168A001D08CE /* rlp */ = {
