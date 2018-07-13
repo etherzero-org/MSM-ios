@@ -87,6 +87,27 @@ extension BRAPIClient {
         }
         task.resume()
     }
+    
+    /*
+      没有价格的代币回强制变成0元
+    */
+    private func tokenRate(codes:Array<Any>) throws -> [Rate] {
+        
+        let tokenrate:[Rate] = codes.map{
+            symbol -> Rate in
+//            print("symbol = \(symbol)")
+            if symbol as! String != "etz" && symbol as! String != "btc"{
+                return Rate(code: Currencies.btc.code,
+                              name: (symbol as! String).uppercased(),
+                              rate: 0.0,
+                              reciprocalCode: (symbol as! String).lowercased())
+            }
+            return Rate(code: "", name: "", rate: 0.0, reciprocalCode: "")
+        }
+
+        return tokenrate
+
+    }
 
     /// Fetches all token exchange rates in BTC from CoinMarketCap
     func tokenExchangeRates(_ handler: @escaping (RatesResult) -> Void) {
@@ -105,8 +126,10 @@ extension BRAPIClient {
                                     rate: rate,
                                     reciprocalCode: ticker.symbol.lowercased())
                     })
+                    let tokenrates:[Rate] = try self.tokenRate(codes: codes)
+                    print("tokenrates:\(tokenrates)")
                     print("当前币价:\(rates)")
-                    handler(.success(rates))
+                    handler(.success(rates + tokenrates))
                 } catch let e {
                     handler(.error(e.localizedDescription))
                 }

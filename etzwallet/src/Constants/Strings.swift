@@ -57,7 +57,7 @@ enum S {
         static let title = NSLocalizedString("Send.title", value:"Send", comment: "Send modal title")
         static let toLabel = NSLocalizedString("Send.toLabel", value:"To", comment: "Send money to label")
         static let amountLabel = NSLocalizedString("Send.amountLabel", value:"Amount", comment: "Send money amount label")
-        static let dataValueLabel = NSLocalizedString("Send.dataValueLabel", value:"Data", comment: "Description for sending data label")
+        static let dataValueLabel = NSLocalizedString("Send.dataValueLabel", value:"Data(Options)", comment: "Description for sending data label")
         static let descriptionLabel = NSLocalizedString("Send.descriptionLabel", value:"Memo", comment: "Description for sending money label")
         static let sendLabel = NSLocalizedString("Send.sendLabel", value:"Send", comment: "Send button label")
         static let pasteLabel = NSLocalizedString("Send.pasteLabel", value:"Paste", comment: "Paste button label")

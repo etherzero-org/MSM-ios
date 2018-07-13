@@ -74,7 +74,9 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
     override func viewDidLoad() {
         view.backgroundColor = .white
         view.addSubview(addressCell)
-        view.addSubview(dataCell)
+        if currency.code == "ETZ"{  //如果是Etherzero的时候会展示Data输入框
+           view.addSubview(dataCell)
+        }
         view.addSubview(memoCell)
         view.addSubview(sendButton)
 
@@ -86,7 +88,7 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
                 amountView.view.topAnchor.constraint(equalTo: addressCell.bottomAnchor),
                 amountView.view.trailingAnchor.constraint(equalTo: view.trailingAnchor) ])
         })
-        
+        if currency.code == "ETZ"{
         dataCell.constrain([
             dataCell.widthAnchor.constraint(equalTo: amountView.view.widthAnchor),
             dataCell.topAnchor.constraint(equalTo: amountView.view.bottomAnchor),
@@ -101,6 +103,16 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
 
         memoCell.accessoryView.constrain([
                 memoCell.accessoryView.constraint(.width, constant: 0.0) ])
+        }else{
+            memoCell.constrain([
+                memoCell.widthAnchor.constraint(equalTo: amountView.view.widthAnchor),
+                memoCell.topAnchor.constraint(equalTo: amountView.view.bottomAnchor),
+                memoCell.leadingAnchor.constraint(equalTo: amountView.view.leadingAnchor),
+                memoCell.heightAnchor.constraint(equalTo: memoCell.textView.heightAnchor, constant: C.padding[4]) ])
+            
+            memoCell.accessoryView.constrain([
+                memoCell.accessoryView.constraint(.width, constant: 0.0) ])
+        }
 
         sendButton.constrain([
             sendButton.constraint(.leading, toView: view, constant: C.padding[2]),

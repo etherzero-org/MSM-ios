@@ -223,6 +223,10 @@ struct EthereumWallet : EthereumReference {
         if let token = currency as? ERC20Token {
             coreAmount = amountCreateToken(createTokenQuantity(token.core, amount))
         } else {
+            //var name = UnsafeMutablePointer <CChar>
+//            var name = UnsafeMutablePointer < CChar>.allocate(capacity: 10)
+            //name = 'a'
+            //设法传入交易data值
             coreAmount = amountCreateEther(etherCreate(amount))
         }
         
