@@ -430,6 +430,7 @@ class EthSenderBase<CurrencyType: CurrencyDef> : SenderBase<CurrencyType, EthWal
         super.reset()
         amount = nil
         address = nil
+        data = nil
     }
     
     // MARK: Private

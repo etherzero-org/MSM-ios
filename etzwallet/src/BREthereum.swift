@@ -223,18 +223,28 @@ struct EthereumWallet : EthereumReference {
         if let token = currency as? ERC20Token {
             coreAmount = amountCreateToken(createTokenQuantity(token.core, amount))
         } else {
-            //var name = UnsafeMutablePointer <CChar>
-//            var name = UnsafeMutablePointer < CChar>.allocate(capacity: 10)
-            //name = 'a'
-            //设法传入交易data值
             coreAmount = amountCreateEther(etherCreate(amount))
         }
-        
-        let tid = ethereumWalletCreateTransaction (node.core,
-                                                   identifier,
-                                                   recvAddress,
-                                                   coreAmount)
-        return EthereumTransaction (node: node, currency: currency, identifier: tid)
+        if data == nil || data == "" {
+            let data:String = "0x"
+            //Data值传入
+            let tid = ethereumWalletCreateTransaction (node.core,
+                                                       identifier,
+                                                       recvAddress,
+                                                       coreAmount,
+                                                       data)
+            return EthereumTransaction (node: node, currency: currency, identifier: tid)
+        }else{
+            //Data值传入
+            let Odata:String = "0x"
+            let tid = ethereumWalletCreateTransaction (node.core,
+                                                       identifier,
+                                                       recvAddress,
+                                                       coreAmount,
+                                                       Odata+data!)
+            return EthereumTransaction (node: node, currency: currency, identifier: tid)
+        }
+       
     }
     
     func sign (transaction: EthereumTransaction, privateKey: BRKey) {

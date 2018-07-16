@@ -266,7 +266,7 @@ public struct Currencies {
                               code: "ETZ",
                               symbol: S.Symbols.eth,
                               colors: (UIColor(red:0, green:0.74, blue:1, alpha:1.0), UIColor(red:0.37, green:0.44, blue:0.64, alpha:1.0)),
-                              urlSchemes: ["ethereum", "ether"])
+                              urlSchemes: ["etherzero", "ether"])
     static let brd = ERC20Token(name: "BlockOptions",
                                 code: "BO",
                                 symbol: "🍞",
