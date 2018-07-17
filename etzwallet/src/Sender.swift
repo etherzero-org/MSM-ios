@@ -26,6 +26,7 @@ enum SenderValidationResult {
     case ownAddress
     case insufficientFunds
     case noExchangeRate
+    case isCorrectData //是否是data值格式的
     
     // BTC errors
     case noFees // fees not downlaoded

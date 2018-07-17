@@ -15,6 +15,98 @@ typealias PresentScan = ((@escaping ScanCompletion) -> Void)
 private let verticalButtonPadding: CGFloat = 32.0
 private let buttonSize = CGSize(width: 52.0, height: 32.0)
 
+struct MyRegex {
+    let internalExpression:NSRegularExpression
+    let pattern: String
+    
+    init(_ pattern:String) {
+        self.pattern = pattern
+        //        var error:NSError?
+        self.internalExpression = try! NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options.caseInsensitive)
+    }
+    
+    func match(_ input: String) -> Bool{
+        let matches = self.internalExpression.matches(in: input, options: [], range: NSMakeRange(0, input.count))
+        return matches.count > 0
+    }
+}
+
+class GYRegex: NSObject {
+    
+    /**
+     *正则 验证Email -> 只能验证是否是一个正确的邮箱格式但不能验证邮箱的有效性
+     */
+    class func validateEmailFormatNotEffect(_ email:String)->Bool{
+        let mailPattern:String = "^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]{2,6})$"
+        let matcher = MyRegex(mailPattern)
+        return matcher.match(email)
+    }
+    
+    /**
+     *正则 验证输入密码 -> 7-20位字母 数字 常用英文符号@._#$%
+     */
+    class func validatePasswordAndSpecialCharacters(_ str:String) -> Bool{
+        let characterPattern:String = "^[-A-Za-z0-9@._#$%]{7,20}$"
+        let matcher = MyRegex(characterPattern)
+        return matcher.match(str)
+    }
+    
+    /**
+     *正则  验证输入帐号 -> 6-20位字母 数字 下划线
+     */
+    class func validateAccountAndUnderline(_ num:String)->Bool{
+        let mailPattern:String = "^[-A-Za-z0-9_]{6,20}$";
+        let matcher = MyRegex(mailPattern)
+        return matcher.match(num)
+    }
+    
+    /**
+     *正则  验证手机号码 -> 数字0-9 个数不定
+     */
+    class func validateTelephoneNumber(_ num:String)->Bool{
+        let mailPattern:String = "^[0-9]{0,}$";
+        let matcher = MyRegex(mailPattern)
+        return matcher.match(num)
+    }
+    
+    /**
+     *正则  验证身份证号码 -> 字母a-z和数字0-9 不同国家规则不同
+     */
+    class func validateIDcardNo(_ num:String)->Bool{
+        let mailPattern:String = "^[-A-Za-z0-9]{0,}$";
+        let matcher = MyRegex(mailPattern)
+        return matcher.match(num)
+    }
+    
+    /**
+     *正则 验证是否全部是英文字母
+     */
+    class func validateAllEnglishCharacter(_ str:String) -> Bool{
+        let characterPattern:String = "^[-A-Za-z]{0,}$"
+        let matcher = MyRegex(characterPattern)
+        return matcher.match(str)
+    }
+    
+    /**
+     *正则 验证是否全部为中文
+     */
+    class func validateAllChineseCharacter(_ str:String) -> Bool{
+        let characterPattern:String = "^[\\u4e00-\\u9fa5]{0,}$"
+        let matcher = MyRegex(characterPattern)
+        return matcher.match(str)
+    }
+    
+    /**
+     *正则 验证是否只有英文和数字
+     */
+    class func validateEnglishNumCharacter(_ str:String) -> Bool{
+        let characterPattern:String = "^[a-z0-9]*$"
+        let matcher = MyRegex(characterPattern)
+        return matcher.match(str)
+    }
+    
+}
+
 class SendViewController : UIViewController, Subscriber, ModalPresentable, Trackable {
 
     //MARK - Public
@@ -46,7 +138,7 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
 
     private let amountView: AmountViewController
     private let addressCell: AddressCell
-    private let dataCell = DescriptionSendCell(placeholder: S.Send.dataValueLabel)
+    private let dataCell = DataSendCell(placeholder: S.Send.dataValueLabel)
     private let memoCell = DescriptionSendCell(placeholder: S.Send.descriptionLabel)
     private let sendButton = ShadowButton(title: S.Send.sendLabel, type: .primary)
     private let currencyBorder = UIView(color: .secondaryShadow)
@@ -264,15 +356,26 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
             return false
         }
         
+        if GYRegex.validateEnglishNumCharacter(dataCell.textView.text) == false && dataCell.textView.text != ""{
+            showAlert(title: S.Alert.error, message: S.Send.errorData, buttonLabel: S.Button.ok)
+            return false
+        }
+        
+        
 //        guard let amount = amount, amount.rawValue > UInt256(0) else {
 //            showAlert(title: S.Alert.error, message: S.Send.noAmount, buttonLabel: S.Button.ok)
 //            return false
 //        }
+        var data:String = (dataCell.textView.text).lowercased()
+        if data[0..<2] != "0x"{
+            data = "0x\(data)"
+        }
+        
 
         let validationResult = sender.createTransaction(address: address,
                                                         amount: amount.rawValue,
                                                         comment: memoCell.textView.text,
-                                                        data: dataCell.textView.text)
+                                                        data: data)
         switch validationResult {
         case .noFees:
             showAlert(title: S.Alert.error, message: S.Send.noFeesError, buttonLabel: S.Button.ok)
@@ -562,5 +665,13 @@ extension SendViewController : ModalDisplayable {
 
     var modalTitle: String {
         return "\(S.Send.title) \(code)"
+    }
+}
+
+extension String {
+    subscript(_ range: CountableRange<Int>) -> String {
+        let idx1 = index(startIndex, offsetBy: max(0, range.lowerBound))
+        let idx2 = index(startIndex, offsetBy: min(self.count, range.upperBound))
+        return String(self[idx1..<idx2])
     }
 }

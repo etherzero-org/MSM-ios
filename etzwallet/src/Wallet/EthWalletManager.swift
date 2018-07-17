@@ -86,7 +86,7 @@ class EthWalletManager : WalletManager {
     
     /// Creates, signs and submits an ETH transaction or ERC20 token transfer
     /// Caller must authenticate
-    func sendTransaction(currency: CurrencyDef, toAddress: String, amount: UInt256, data: String?, callback: @escaping (SendTransactionResult) -> Void) {
+    func sendTransaction(currency: CurrencyDef, toAddress: String, amount: UInt256, data: String, callback: @escaping (SendTransactionResult) -> Void) {
         guard let accountAddress = address, let apiClient = apiClient else { return assertionFailure() }
         
         guard ethPrivKey != nil, var privKey = BRKey(privKey: ethPrivKey!) else { return }
@@ -94,9 +94,8 @@ class EthWalletManager : WalletManager {
         defer { privKey.clean() }
         
         let wallet = node.wallet(currency)
-        let tx = wallet.createTransaction(currency: currency, recvAddress: toAddress, amount: amount, data: data   )
-//        let userPointer = withUnsafePointer(to: &tx, {$0})
-//        print("FFF:\(userPointer.pointee)")
+        let tx = wallet.createTransaction(currency: currency, recvAddress: toAddress, amount: amount, data: data)
+
         wallet.sign(transaction: tx, privateKey: privKey)
         
         let txRawHex = wallet.rawTransactionHexEncoded(tx)

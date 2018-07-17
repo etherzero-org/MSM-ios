@@ -218,32 +218,20 @@ struct EthereumWallet : EthereumReference {
     //
     // MARK: Transaction
     //
-    func createTransaction (currency: CurrencyDef, recvAddress: String, amount: UInt256, data:String?) -> EthereumTransaction {
+    func createTransaction (currency: CurrencyDef, recvAddress: String, amount: UInt256, data:String) -> EthereumTransaction {
         var coreAmount: BREthereumAmount
         if let token = currency as? ERC20Token {
             coreAmount = amountCreateToken(createTokenQuantity(token.core, amount))
         } else {
             coreAmount = amountCreateEther(etherCreate(amount))
         }
-        if data == nil || data == "" {
-            let data:String = "0x"
-            //Data值传入
-            let tid = ethereumWalletCreateTransaction (node.core,
-                                                       identifier,
-                                                       recvAddress,
-                                                       coreAmount,
-                                                       data)
-            return EthereumTransaction (node: node, currency: currency, identifier: tid)
-        }else{
-            //Data值传入
-            let Odata:String = "0x"
-            let tid = ethereumWalletCreateTransaction (node.core,
-                                                       identifier,
-                                                       recvAddress,
-                                                       coreAmount,
-                                                       Odata+data!)
-            return EthereumTransaction (node: node, currency: currency, identifier: tid)
-        }
+        //Data值传入
+        let tid = ethereumWalletCreateTransaction (node.core,
+                                                   identifier,
+                                                   recvAddress,
+                                                   coreAmount,
+                                                   data)
+        return EthereumTransaction (node: node, currency: currency, identifier: tid)
        
     }
     
