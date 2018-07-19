@@ -6,16 +6,16 @@ Bread is the best way to get started with bitcoin. Our simple, streamlined desig
 
 ### Completely decentralized
 
-Unlike other iOS bitcoin wallets, **ETZ** is a standalone bitcoin client. It connects directly to the bitcoin network using [SPV](https://en.bitcoin.it/wiki/Thin_Client_Security#Header-Only_Clients) mode, and doesn't rely on servers that can be hacked or disabled. Even if Bread the company disappears, the app will continue to function, allowing users to access their money at any time.
+Unlike other iOS bitcoin wallets, **EasyETZ** is a standalone bitcoin client. It connects directly to the bitcoin network using [SPV](https://en.bitcoin.it/wiki/Thin_Client_Security#Header-Only_Clients) mode, and doesn't rely on servers that can be hacked or disabled. Even if Bread the company disappears, the app will continue to function, allowing users to access their money at any time.
 
 ### Cutting-edge security
 
-**ETZ** utilizes AES hardware encryption, app sandboxing, and the latest iOS security features to protect users from malware, browser security holes, and even physical theft. Private keys are stored only in the secure enclave of the user's phone, inaccessible to anyone other than the user.
+**EasyETZ** utilizes AES hardware encryption, app sandboxing, and the latest iOS security features to protect users from malware, browser security holes, and even physical theft. Private keys are stored only in the secure enclave of the user's phone, inaccessible to anyone other than the user.
 
 
 ### Localization
 
-**ETZ** is available in the following languages:
+**EasyETZ** is available in the following languages:
 
 - Chinese (Simplified and traditional)
 - Danish
@@ -43,6 +43,6 @@ Any jailbreak app can grant itself access to every other app's keychain data. Th
 
 ---
 
-**ETZ** is open source and available under the terms of the MIT license.
+**EasyETZ** is open source and available under the terms of the MIT license.
 
 Source code is available at https://github.com/etherzero-org
