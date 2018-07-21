@@ -1,9 +1,9 @@
 //
-//  AmountViewController.swift
-//  breadwallet
+//  AdvanceViewController.swift
+//  etzwallet
 //
-//  Created by Adrian Corscadden on 2017-05-19.
-//  Copyright © 2017 breadwallet LLC. All rights reserved.
+//  Created by etz on 2018/7/21.
+//  Copyright © 2018年 etzwallet LLC. All rights reserved.
 //
 
 import UIKit
@@ -12,10 +12,10 @@ import BRCore
 private let currencyHeight: CGFloat = 80.0
 private let feeHeight: CGFloat = 130.0
 
-class AmountViewController : UIViewController, Trackable {
+class AdvanceViewController : UIViewController, Trackable {
     
     private let currency: CurrencyDef
-
+    
     init(currency: CurrencyDef, isPinPadExpandedAtLaunch: Bool, isRequesting: Bool = false) {
         self.currency = currency
         self.isPinPadExpandedAtLaunch = isPinPadExpandedAtLaunch
@@ -31,11 +31,11 @@ class AmountViewController : UIViewController, Trackable {
         self.canEditFee = (currency is Bitcoin)
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     var balanceTextForAmount: ((Amount?, Rate?) -> (NSAttributedString?, NSAttributedString?)?)?
     var didUpdateAmount: ((Amount?) -> Void)?
     var didChangeFirstResponder: ((Bool) -> Void)?
-
+    
     var currentOutput: String {
         return amountLabel.text ?? ""
     }
@@ -56,13 +56,13 @@ class AmountViewController : UIViewController, Trackable {
         self.amount = amount
         fullRefresh()
     }
-
+    
     func expandPinPad() {
         if pinPadHeight?.constant == 0.0 {
             togglePinPad()
         }
     }
-
+    
     private let isPinPadExpandedAtLaunch: Bool
     private let isRequesting: Bool
     var minimumFractionDigits = 0
@@ -83,7 +83,7 @@ class AmountViewController : UIViewController, Trackable {
     private let tapView = UIView()
     private let editFee = UIButton(type: .system)
     private let feeSelector: FeeSelector
-
+    
     private var amount: Amount? {
         didSet {
             updateAmountLabel()
@@ -91,13 +91,13 @@ class AmountViewController : UIViewController, Trackable {
             didUpdateAmount?(amount)
         }
     }
-
+    
     override func viewDidLoad() {
         addSubviews()
         addConstraints()
         setInitialData()
     }
-
+    
     private func addSubviews() {
         view.addSubview(amountLabel)
         view.addSubview(placeholder)
@@ -111,7 +111,7 @@ class AmountViewController : UIViewController, Trackable {
         view.addSubview(bottomBorder)
         view.addSubview(editFee)
     }
-
+    
     private func addConstraints() {
         amountLabel.constrain([
             amountLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: C.padding[2]),
@@ -129,14 +129,14 @@ class AmountViewController : UIViewController, Trackable {
             currencyToggle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -C.padding[2]) ])
         feeSelectorHeight = feeContainer.heightAnchor.constraint(equalToConstant: 0.0)
         feeSelectorTop = feeContainer.topAnchor.constraint(equalTo: feeLabel.bottomAnchor, constant: 0.0)
-
+        
         feeContainer.constrain([
             feeSelectorTop,
             feeSelectorHeight,
             feeContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             feeContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor) ])
         feeContainer.arrowXLocation = C.padding[4]
-
+        
         let borderTop = isRequesting ? border.topAnchor.constraint(equalTo: currencyToggle.bottomAnchor, constant: C.padding[2]) : border.topAnchor.constraint(equalTo: feeContainer.bottomAnchor)
         border.constrain([
             border.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -169,7 +169,7 @@ class AmountViewController : UIViewController, Trackable {
             bottomBorder.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             bottomBorder.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             bottomBorder.heightAnchor.constraint(equalToConstant: 1.0) ])
-
+        
         tapView.constrain([
             tapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tapView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -177,7 +177,7 @@ class AmountViewController : UIViewController, Trackable {
             tapView.bottomAnchor.constraint(equalTo: feeContainer.topAnchor) ])
         preventAmountOverflow()
     }
-
+    
     private func setInitialData() {
         cursor.isHidden = true
         cursor.startBlinking()
@@ -198,11 +198,11 @@ class AmountViewController : UIViewController, Trackable {
         let gr = UITapGestureRecognizer(target: self, action: #selector(didTap))
         tapView.addGestureRecognizer(gr)
         tapView.isUserInteractionEnabled = true
-
+        
         if isPinPadExpandedAtLaunch {
             didTap()
         }
-
+        
         feeContainer.contentView = feeSelector
         editFee.tap = { [weak self] in
             self?.toggleFeeSelector()
@@ -214,13 +214,13 @@ class AmountViewController : UIViewController, Trackable {
         feeLabel.numberOfLines = 0
         feeLabel.lineBreakMode = .byWordWrapping
     }
-
+    
     private func toggleCurrency() {
         saveEvent("amount.swapCurrency")
         selectedRate = selectedRate == nil ? currency.state?.currentRate : nil
         updateCurrencyToggleTitle()
     }
-
+    
     private func preventAmountOverflow() {
         amountLabel.constrain([
             amountLabel.trailingAnchor.constraint(lessThanOrEqualTo: currencyToggle.leadingAnchor, constant: -C.padding[2]) ])
@@ -228,7 +228,7 @@ class AmountViewController : UIViewController, Trackable {
         amountLabel.adjustsFontSizeToFitWidth = true
         amountLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .horizontal)
     }
-
+    
     private func handlePinPadUpdate(output: String) {
         let currencyDecimalSeparator = NumberFormatter().currencyDecimalSeparator ?? "."
         placeholder.isHidden = output.utf8.count > 0 ? true : false
@@ -237,7 +237,7 @@ class AmountViewController : UIViewController, Trackable {
             let locationValue = output.distance(from: output.endIndex, to: decimalLocation)
             minimumFractionDigits = abs(locationValue)
         }
-
+        
         //If trailing decimal, append the decimal to the output
         hasTrailingDecimal = false //set default
         if let decimalLocation = output.range(of: currencyDecimalSeparator)?.upperBound {
@@ -245,7 +245,7 @@ class AmountViewController : UIViewController, Trackable {
                 hasTrailingDecimal = true
             }
         }
-
+        
         if let rate = selectedRate {
             amount = Amount(fiatString: output,
                             currency: currency,
@@ -259,7 +259,7 @@ class AmountViewController : UIViewController, Trackable {
             amount = nil
         }
     }
-
+    
     private func updateAmountLabel() {
         guard let amount = amount else { amountLabel.text = ""; return }
         let displayAmount = Amount(amount: amount.rawValue,
@@ -273,7 +273,7 @@ class AmountViewController : UIViewController, Trackable {
         amountLabel.text = output
         placeholder.isHidden = output.utf8.count > 0 ? true : false
     }
-
+    
     func updateBalanceLabel() {
         if let (balance, fee) = balanceTextForAmount?(amount, selectedRate) {
             balanceLabel.attributedText = balance
@@ -286,7 +286,7 @@ class AmountViewController : UIViewController, Trackable {
             balanceLabel.isHidden = cursor.isHidden
         }
     }
-
+    
     private func toggleFeeSelector() {
         guard let height = feeSelectorHeight else { return }
         let isCollapsed: Bool = height.isActive
@@ -301,14 +301,14 @@ class AmountViewController : UIViewController, Trackable {
             self.parent?.parent?.view?.layoutIfNeeded()
         }, completion: {_ in })
     }
-
+    
     @objc private func didTap() {
         UIView.spring(C.animationDuration, animations: {
             self.togglePinPad()
             self.parent?.parent?.view.layoutIfNeeded()
         }, completion: { completed in })
     }
-
+    
     func closePinPad() {
         pinPadHeight?.constant = 0.0
         cursor.isHidden = true
@@ -316,7 +316,7 @@ class AmountViewController : UIViewController, Trackable {
         updateBalanceAndFeeLabels()
         updateBalanceLabel()
     }
-
+    
     private func togglePinPad() {
         let isCollapsed: Bool = pinPadHeight?.constant == 0.0
         pinPadHeight?.constant = isCollapsed ? pinPad.height : 0.0
@@ -326,7 +326,7 @@ class AmountViewController : UIViewController, Trackable {
         updateBalanceLabel()
         didChangeFirstResponder?(isCollapsed)
     }
-
+    
     private func updateBalanceAndFeeLabels() {
         if let amount = amount, amount.rawValue > UInt256(0) {
             balanceLabel.isHidden = false
@@ -340,12 +340,12 @@ class AmountViewController : UIViewController, Trackable {
             }
         }
     }
-
+    
     private func fullRefresh() {
         updateCurrencyToggleTitle()
         updateBalanceLabel()
         updateAmountLabel()
-
+        
         //Update pinpad content to match currency change
         //This must be done AFTER the amount label has updated
         let currentOutput = amountLabel.text ?? ""
@@ -353,7 +353,7 @@ class AmountViewController : UIViewController, Trackable {
         set.formUnion(CharacterSet(charactersIn: NumberFormatter().currencyDecimalSeparator))
         pinPad.currentOutput = String(String.UnicodeScalarView(currentOutput.unicodeScalars.filter { set.contains($0) }))
     }
-
+    
     private func updateCurrencyToggleTitle() {
         guard let currencyState = currency.state else { return }
         if let rate = selectedRate {
@@ -365,17 +365,18 @@ class AmountViewController : UIViewController, Trackable {
                 currencyToggle.title = currency.unitName(forDecimals: currencyState.maxDigits)
             }
             
-//            currencyToggle.title = currency.unitName(forDecimals: currencyState.maxDigits)
+            //            currencyToggle.title = currency.unitName(forDecimals: currencyState.maxDigits)
         }
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
-//extension Fees : Equatable {}
-//
-//func ==(lhs: Fees, rhs: Fees) -> Bool {
-//    return lhs.regular == rhs.regular && lhs.economy == rhs.economy
-//}
+extension Fees : Equatable {}
+
+func ==(lhs: Fees, rhs: Fees) -> Bool {
+    return lhs.regular == rhs.regular && lhs.economy == rhs.economy
+}
+

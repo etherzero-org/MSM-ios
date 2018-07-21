@@ -57,6 +57,8 @@ enum S {
         static let title = NSLocalizedString("Send.title", value:"Send", comment: "Send modal title")
         static let toLabel = NSLocalizedString("Send.toLabel", value:"To", comment: "Send money to label")
         static let amountLabel = NSLocalizedString("Send.amountLabel", value:"Amount", comment: "Send money amount label")
+        static let gasLimitLabel = NSLocalizedString("Send.gasLimitLabel", value:"GasLimit", comment: "Description for sending GasLimit label")
+        static let gasPriceLabel = NSLocalizedString("Send.gasPriceLabel", value:"GasPrice", comment: "Description for sending GasPrice label")
         static let dataValueLabel = NSLocalizedString("Send.dataValueLabel", value:"Data(Options)", comment: "Description for sending data label")
         static let descriptionLabel = NSLocalizedString("Send.descriptionLabel", value:"Memo", comment: "Description for sending money label")
         static let sendLabel = NSLocalizedString("Send.sendLabel", value:"Send", comment: "Send button label")
@@ -152,6 +154,7 @@ enum S {
         static let receivingVia = NSLocalizedString("TransactionDetails.receivingVia", value:"receiving via %1$@", comment: "receiving via <address>")
         static let receivingFrom = NSLocalizedString("TransactionDetails.receivingFrom", value:"receiving from %1$@", comment: "receiving from <address>")
         static let tokenTransfer = NSLocalizedString("Transaction.tokenTransfer", value:"Fee for token transfer: %1$@", comment: "Fee for token transfer: ETZ")
+        static let advancedSet = NSLocalizedString("Transaction.advancedSet", value:"Advanced options", comment: "Advanced options for etherzero")
     }
 
     enum TransactionDetails {

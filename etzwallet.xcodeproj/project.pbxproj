@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		022C511420FD838C00CB4576 /* DataSendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022C511320FD838C00CB4576 /* DataSendCell.swift */; };
+		023809A92101D9D000B14D6F /* Advanced.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023809A82101D9D000B14D6F /* Advanced.swift */; };
+		023809AE2102D78900B14D6F /* AdvancedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023809AD2102D78800B14D6F /* AdvancedCell.swift */; };
+		023809B02103103700B14D6F /* AdvanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023809AF2103103700B14D6F /* AdvanceViewController.swift */; };
 		1B1AFFA01FB7EF7C00E61908 /* BiometricsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1AFF9E1FB7EF7C00E61908 /* BiometricsSettingsViewController.swift */; };
 		1B1AFFA11FB7EF7C00E61908 /* BiometricsSpendingLimitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1AFF9F1FB7EF7C00E61908 /* BiometricsSpendingLimitViewController.swift */; };
 		22122B721F0B8996000E9AB9 /* BRAPIClient+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22122B711F0B8996000E9AB9 /* BRAPIClient+Events.swift */; };
@@ -595,6 +598,9 @@
 
 /* Begin PBXFileReference section */
 		022C511320FD838C00CB4576 /* DataSendCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSendCell.swift; sourceTree = "<group>"; };
+		023809A82101D9D000B14D6F /* Advanced.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Advanced.swift; sourceTree = "<group>"; };
+		023809AD2102D78800B14D6F /* AdvancedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedCell.swift; sourceTree = "<group>"; };
+		023809AF2103103700B14D6F /* AdvanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvanceViewController.swift; sourceTree = "<group>"; };
 		1B1AFF9E1FB7EF7C00E61908 /* BiometricsSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricsSettingsViewController.swift; sourceTree = "<group>"; };
 		1B1AFF9F1FB7EF7C00E61908 /* BiometricsSpendingLimitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricsSpendingLimitViewController.swift; sourceTree = "<group>"; };
 		22122B711F0B8996000E9AB9 /* BRAPIClient+Events.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BRAPIClient+Events.swift"; sourceTree = "<group>"; };
@@ -2923,6 +2929,7 @@
 				1B1AFF9F1FB7EF7C00E61908 /* BiometricsSpendingLimitViewController.swift */,
 				7CA238132011A97C00A4A59D /* TxDetailViewController.swift */,
 				CE65C662207B023F000C99C4 /* EditWalletsViewController.swift */,
+				023809AF2103103700B14D6F /* AdvanceViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -3037,6 +3044,7 @@
 				CEE20C2C1EA288FA0086F724 /* UpdatingLabel.swift */,
 				CE5E6C931EB7964900A476DB /* WalletDisabledView.swift */,
 				CE1E7A9920938DFD00C86BB7 /* MenuButton.swift */,
+				023809A82101D9D000B14D6F /* Advanced.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -3223,6 +3231,7 @@
 				CECCE5AD1E04AD6300D99448 /* AddressCell.swift */,
 				CECCE5AF1E04AD7600D99448 /* DescriptionSendCell.swift */,
 				022C511320FD838C00CB4576 /* DataSendCell.swift */,
+				023809AD2102D78800B14D6F /* AdvancedCell.swift */,
 			);
 			name = SendViewCells;
 			sourceTree = "<group>";
@@ -3914,6 +3923,7 @@
 				CE20C90E1DBE52B000C8397A /* UIView+BRWAdditions.swift in Sources */,
 				7C35E719200AF3940064808F /* TxListViewModel.swift in Sources */,
 				CE6314831E08E5BB00D4AFE0 /* UIView+InitAdditions.swift in Sources */,
+				023809A92101D9D000B14D6F /* Advanced.swift in Sources */,
 				CEC6AA401DEFC87300EE5AFD /* SendViewController.swift in Sources */,
 				CEAA9E8F1DC074410066731D /* StartPaperPhraseViewController.swift in Sources */,
 				CEC6F8451E886723000795B8 /* PaymentRequest.swift in Sources */,
@@ -4008,6 +4018,7 @@
 				22A9A9591DF61945000F0016 /* Extensions.swift in Sources */,
 				22A9A94C1DF61945000F0016 /* BRGeoLocationPlugin.swift in Sources */,
 				CEAA9EA61DC3246F0066731D /* StartNavigationDelegate.swift in Sources */,
+				023809AE2102D78900B14D6F /* AdvancedCell.swift in Sources */,
 				7CBF4B6420081BCE00E003AA /* KeyedDecodingContainer+Additions.swift in Sources */,
 				22A9A94B1DF61945000F0016 /* BRCoding.swift in Sources */,
 				22A9A9561DF61945000F0016 /* BRWalletPlugin.swift in Sources */,
@@ -4018,6 +4029,7 @@
 				7C7F18ED1FED9A3B0030230E /* TxStatusIndicator.swift in Sources */,
 				CEAA9E911DC0FDFE0066731D /* UIViewPropertyAnimator+BRWAdditions.swift in Sources */,
 				22E773041EE7813000397E0E /* Bonjour.swift in Sources */,
+				023809B02103103700B14D6F /* AdvanceViewController.swift in Sources */,
 				7CE940E61FEB8A5F005A2B53 /* TxDetailRowCell.swift in Sources */,
 				CEAA9EA01DC2F9F50066731D /* UIFont+BRWAdditions.swift in Sources */,
 				CEF61B121ECF52C700C7EA6A /* AmountViewController.swift in Sources */,

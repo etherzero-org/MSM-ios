@@ -138,9 +138,15 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
 
     private let amountView: AmountViewController
     private let addressCell: AddressCell
+    private let adVanceCon = UIView()
     private let dataCell = DataSendCell(placeholder: S.Send.dataValueLabel)
+    private let gaspriceCell = DataSendCell(placeholder: S.Send.gasPriceLabel)
+    private let gaslimitCell = DataSendCell(placeholder: S.Send.gasLimitLabel)
     private let memoCell = DescriptionSendCell(placeholder: S.Send.descriptionLabel)
     private let sendButton = ShadowButton(title: S.Send.sendLabel, type: .primary)
+    private let adVanceds = AdvancedBtn(title: S.Transaction.advancedSet)
+    private var adVancedHeight: NSLayoutConstraint?
+//    private let adVanceds = UIButton(type: .system)
     private let currencyBorder = UIView(color: .secondaryShadow)
     private var currencySwitcherHeightConstraint: NSLayoutConstraint?
     private var pinPadHeightConstraint: NSLayoutConstraint?
@@ -166,8 +172,17 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
     override func viewDidLoad() {
         view.backgroundColor = .white
         view.addSubview(addressCell)
+        view.addSubview(adVanceds)
         if currency.code == "ETZ"{  //如果是Etherzero的时候会展示Data输入框
-           view.addSubview(dataCell)
+            view.addSubview(adVanceCon)
+            adVanceCon.addSubview(gaspriceCell)
+            adVanceCon.addSubview(gaslimitCell)
+            adVanceCon.addSubview(dataCell)
+            adVanceCon.isHidden = true
+            adVanceds.isHidden = false
+        }else{
+            adVanceCon.isHidden = true
+            adVanceds.isHidden = true
         }
         view.addSubview(memoCell)
         view.addSubview(sendButton)
@@ -180,38 +195,73 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
                 amountView.view.topAnchor.constraint(equalTo: addressCell.bottomAnchor),
                 amountView.view.trailingAnchor.constraint(equalTo: view.trailingAnchor) ])
         })
-        if currency.code == "ETZ"{
-        dataCell.constrain([
-            dataCell.widthAnchor.constraint(equalTo: amountView.view.widthAnchor),
-            dataCell.topAnchor.constraint(equalTo: amountView.view.bottomAnchor),
-            dataCell.leadingAnchor.constraint(equalTo: amountView.view.leadingAnchor),
-            dataCell.heightAnchor.constraint(equalTo: dataCell.textView.heightAnchor, constant: C.padding[4]) ])
-
+        
         memoCell.constrain([
-            memoCell.widthAnchor.constraint(equalTo: dataCell.widthAnchor),
-            memoCell.topAnchor.constraint(equalTo: dataCell.bottomAnchor),
-            memoCell.leadingAnchor.constraint(equalTo: dataCell.leadingAnchor),
+            memoCell.widthAnchor.constraint(equalTo: amountView.view.widthAnchor),
+            memoCell.topAnchor.constraint(equalTo: amountView.view.bottomAnchor),
+            memoCell.leadingAnchor.constraint(equalTo: amountView.view.leadingAnchor),
             memoCell.heightAnchor.constraint(equalTo: memoCell.textView.heightAnchor, constant: C.padding[4]) ])
-
+        
         memoCell.accessoryView.constrain([
-                memoCell.accessoryView.constraint(.width, constant: 0.0) ])
-        }else{
-            memoCell.constrain([
-                memoCell.widthAnchor.constraint(equalTo: amountView.view.widthAnchor),
-                memoCell.topAnchor.constraint(equalTo: amountView.view.bottomAnchor),
-                memoCell.leadingAnchor.constraint(equalTo: amountView.view.leadingAnchor),
-                memoCell.heightAnchor.constraint(equalTo: memoCell.textView.heightAnchor, constant: C.padding[4]) ])
+            memoCell.accessoryView.constraint(.width, constant: 0.0) ])
+        
+        if currency.code == "ETZ" {
+            adVancedHeight = adVanceCon.heightAnchor.constraint(equalToConstant: 0.0)
+            adVanceCon.constrain([
+                adVanceCon.leadingAnchor.constraint(equalTo: memoCell.leadingAnchor),
+                adVanceCon.topAnchor.constraint(equalTo: memoCell.bottomAnchor),
+                adVanceCon.trailingAnchor.constraint(equalTo: memoCell.trailingAnchor),
+                adVanceCon.bottomAnchor.constraint(equalTo: adVanceds.topAnchor),
+                adVancedHeight
+                ])
             
-            memoCell.accessoryView.constrain([
-                memoCell.accessoryView.constraint(.width, constant: 0.0) ])
-        }
+            gaspriceCell.constrain([
+                gaspriceCell.constraint(.top, toView: adVanceCon),
+                gaspriceCell.widthAnchor.constraint(equalTo: adVanceCon.widthAnchor),
+                gaspriceCell.topAnchor.constraint(equalTo: adVanceCon.bottomAnchor),
+                gaspriceCell.leadingAnchor.constraint(equalTo: adVanceCon.leadingAnchor),
+                gaspriceCell.heightAnchor.constraint(equalTo: gaspriceCell.textView.heightAnchor, constant: C.padding[4])
+                ])
+            
+            gaslimitCell.constrain([
+                gaslimitCell.widthAnchor.constraint(equalTo: gaspriceCell.widthAnchor),
+                gaslimitCell.topAnchor.constraint(equalTo: gaspriceCell.bottomAnchor),
+                gaslimitCell.leadingAnchor.constraint(equalTo: gaspriceCell.leadingAnchor),
+                gaslimitCell.heightAnchor.constraint(equalTo: gaslimitCell.textView.heightAnchor, constant: C.padding[4])
+                ])
+            
+            dataCell.constrain([
+                dataCell.constraint(.bottom, toView: adVanceCon),
+                dataCell.widthAnchor.constraint(equalTo: gaslimitCell.widthAnchor),
+                dataCell.topAnchor.constraint(equalTo: gaslimitCell.bottomAnchor),
+                dataCell.leadingAnchor.constraint(equalTo: gaslimitCell.leadingAnchor),
+                dataCell.heightAnchor.constraint(equalTo: dataCell.textView.heightAnchor, constant: C.padding[4])
+                ])
 
-        sendButton.constrain([
-            sendButton.constraint(.leading, toView: view, constant: C.padding[2]),
-            sendButton.constraint(.trailing, toView: view, constant: -C.padding[2]),
-            sendButton.constraint(toBottom: memoCell, constant: verticalButtonPadding),
-            sendButton.constraint(.height, constant: C.Sizes.buttonHeight),
-            sendButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: E.isIPhoneX ? -C.padding[5] : -C.padding[2]) ])
+            adVanceds.constrain([
+                adVanceds.widthAnchor.constraint(equalTo: dataCell.widthAnchor),
+                adVanceds.topAnchor.constraint(equalTo: dataCell.bottomAnchor),
+                adVanceds.leadingAnchor.constraint(equalTo: dataCell.leadingAnchor),
+                adVanceds.heightAnchor.constraint(equalTo: dataCell.textView.heightAnchor, constant: C.padding[2])
+                ])
+            
+            sendButton.constrain([
+                sendButton.constraint(.leading, toView: view, constant: C.padding[2]),
+                sendButton.constraint(.trailing, toView: view, constant: -C.padding[2]),
+                sendButton.constraint(toBottom: adVanceds, constant: verticalButtonPadding),
+                sendButton.constraint(.height, constant: C.Sizes.buttonHeight),
+                sendButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: E.isIPhoneX ? -C.padding[5] : -C.padding[2]) ])
+        }else{
+            
+            sendButton.constrain([
+                sendButton.constraint(.leading, toView: view, constant: C.padding[2]),
+                sendButton.constraint(.trailing, toView: view, constant: -C.padding[2]),
+                sendButton.constraint(toBottom: memoCell, constant: verticalButtonPadding),
+                sendButton.constraint(.height, constant: C.Sizes.buttonHeight),
+                sendButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: E.isIPhoneX ? -C.padding[5] : -C.padding[2]) ])
+        }
+        
+        
         addButtonActions()
         Store.subscribe(self, selector: { $0[self.currency]?.balance != $1[self.currency]?.balance },
                         callback: { [unowned self] in
@@ -243,6 +293,7 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
         addressCell.paste.addTarget(self, action: #selector(SendViewController.pasteTapped), for: .touchUpInside)
         addressCell.scan.addTarget(self, action: #selector(SendViewController.scanTapped), for: .touchUpInside)
         sendButton.addTarget(self, action: #selector(sendTapped), for: .touchUpInside)
+        adVanceds.label.addTarget(self, action: #selector(advancedTapped), for: .touchUpInside)
         dataCell.didReturn = { textView in
             textView.resignFirstResponder()
         }
@@ -412,6 +463,17 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
         }
         
         return false
+    }
+    
+    @objc private func advancedTapped() {
+        print("高级选项状态:\(adVanceCon.isHidden)")
+        adVanceCon.isHidden = !adVanceCon.isHidden
+        if adVanceCon.isHidden {
+            adVancedHeight?.constant = 0.0
+        }else{
+            adVancedHeight?.constant = 55*4
+        }
+        return
     }
 
     @objc private func sendTapped() {
