@@ -89,11 +89,11 @@ class AccountHeaderView : UIView, GradientDrawable, Subscriber {
         if let rate = currency.state?.currentRate {
             let placeholderAmount = Amount(amount: 0, currency: currency, rate: rate)
             self.exchangeRate = rate
-            self.secondaryBalance = UpdatingLabel(formatter: placeholderAmount.localFormat)
-            self.primaryBalance = UpdatingLabel(formatter: placeholderAmount.tokenFormat)
+            self.secondaryBalance = UpdatingLabel(formatter: placeholderAmount.localFormat,currency: "")
+            self.primaryBalance = UpdatingLabel(formatter: placeholderAmount.tokenFormat,currency: "")
         } else {
-            self.secondaryBalance = UpdatingLabel(formatter: NumberFormatter())
-            self.primaryBalance = UpdatingLabel(formatter: NumberFormatter())
+            self.secondaryBalance = UpdatingLabel(formatter: NumberFormatter(),currency: "")
+            self.primaryBalance = UpdatingLabel(formatter: NumberFormatter(),currency: "")
         }
         super.init(frame: CGRect())
         
@@ -283,8 +283,8 @@ class AccountHeaderView : UIView, GradientDrawable, Subscriber {
         let amount = Amount(amount: balance, currency: currency, rate: rate)
         
         if !hasInitialized {
-            primaryBalance.setValue(amount.tokenValue)
-            secondaryBalance.setValue(amount.fiatValue)
+            primaryBalance.setValue(amount.tokenValue,currency.code)
+            secondaryBalance.setValue(amount.fiatValue,"")
             swapLabels()
             hasInitialized = true
         } else {
@@ -296,10 +296,10 @@ class AccountHeaderView : UIView, GradientDrawable, Subscriber {
                 secondaryBalance.isHidden = false
             }
             
-            primaryBalance.setValueAnimated(amount.tokenValue, completion: { [weak self] in
+            primaryBalance.setValueAnimated(amount.tokenValue,currency.code, completion: { [weak self] in
                 self?.swapLabels()
             })
-            secondaryBalance.setValueAnimated(amount.fiatValue, completion: { [weak self] in
+            secondaryBalance.setValueAnimated(amount.fiatValue,"", completion: { [weak self] in
                 self?.swapLabels()
             })
         }

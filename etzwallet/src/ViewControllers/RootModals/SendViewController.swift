@@ -105,6 +105,15 @@ class GYRegex: NSObject {
         return matcher.match(str)
     }
     
+    /**
+     *正则 验证是否只有数字
+     */
+    class func validateNumber(_ str:String) -> Bool{
+        let characterPattern:String = "^[0-9]*$"
+        let matcher = MyRegex(characterPattern)
+        return matcher.match(str)
+    }
+    
 }
 
 class SendViewController : UIViewController, Subscriber, ModalPresentable, Trackable {
@@ -113,6 +122,7 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
     var presentScan: PresentScan?
     var presentVerifyPin: ((String, @escaping ((String) -> Void))->Void)?
     var onPublishSuccess: (()->Void)?
+    var didChangeFirstResponder: ((Bool) -> Void)?
     var parentView: UIView? //ModalPresentable
     
     var isPresentedFromLock = false
@@ -146,7 +156,6 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
     private let sendButton = ShadowButton(title: S.Send.sendLabel, type: .primary)
     private let adVanceds = AdvancedBtn(title: S.Transaction.advancedSet)
     private var adVancedHeight: NSLayoutConstraint?
-//    private let adVanceds = UIButton(type: .system)
     private let currencyBorder = UIView(color: .secondaryShadow)
     private var currencySwitcherHeightConstraint: NSLayoutConstraint?
     private var pinPadHeightConstraint: NSLayoutConstraint?
@@ -384,6 +393,7 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
         self.validatedProtoRequest = nil
         handleRequest(request)
     }
+    
 
     @objc private func scanTapped() {
         dataCell.textView.resignFirstResponder()
@@ -409,6 +419,16 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
         
         if GYRegex.validateEnglishNumCharacter(dataCell.textView.text) == false && dataCell.textView.text != ""{
             showAlert(title: S.Alert.error, message: S.Send.errorData, buttonLabel: S.Button.ok)
+            return false
+        }
+        
+        if GYRegex.validateNumber(gaslimitCell.textView.text) == false && gaslimitCell.textView.text != ""{
+            showAlert(title: S.Alert.error, message: S.Send.errorGasLimit, buttonLabel: S.Button.ok)
+            return false
+        }
+        
+        if GYRegex.validateNumber(gaspriceCell.textView.text) == false && gaspriceCell.textView.text != ""{
+            showAlert(title: S.Alert.error, message: S.Send.errorGasPrice, buttonLabel: S.Button.ok)
             return false
         }
         
@@ -465,15 +485,13 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
         return false
     }
     
+    //点击高级选项触发的动画
     @objc private func advancedTapped() {
-        print("高级选项状态:\(adVanceCon.isHidden)")
         adVanceCon.isHidden = !adVanceCon.isHidden
-        if adVanceCon.isHidden {
-            adVancedHeight?.constant = 0.0
-        }else{
-            adVancedHeight?.constant = 55*4
-        }
-        return
+        UIView.spring(C.animationDuration, animations: {
+            self.togglePinPad()
+            self.parent?.view.layoutIfNeeded()
+        }, completion: { completed in })
     }
 
     @objc private func sendTapped() {
@@ -541,6 +559,14 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
                 }
             })
         }
+    }
+    
+    //高级选项展开收缩动画
+    private func togglePinPad() {
+        let isCollapsed: Bool = adVancedHeight?.constant == 0.0
+        adVancedHeight?.constant = isCollapsed ? 55*4 : 0.0
+        print("adVancedHeight:\(String(describing: adVancedHeight?.constant))")
+        didChangeFirstResponder?(isCollapsed)
     }
 
     private func handleRequestWithWarning(_ request: PaymentRequest) {
