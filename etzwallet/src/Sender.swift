@@ -56,7 +56,7 @@ protocol Sender: class {
     
     func validate(paymentRequest: PaymentProtocolRequest, ignoreUsedAddress: Bool, ignoreIdentityNotCertified: Bool) -> SenderValidationResult
     
-    func createTransaction(address: String, amount: UInt256, comment: String?,data:String?) -> SenderValidationResult
+    func createTransaction(address: String, amount: UInt256, comment: String?,data:String?,gaslimit:String?,gasprice:String?) -> SenderValidationResult
     func createTransaction(forPaymentProtocol: PaymentProtocolRequest) -> SenderValidationResult
     
     func sendTransaction(allowBiometrics: Bool,
@@ -79,6 +79,8 @@ class SenderBase<CurrencyType: CurrencyDef, WalletType: WalletManager> {
     fileprivate let kvStore: BRReplicatedKVStore
     fileprivate var comment: String?
     fileprivate var data: String?
+    fileprivate var gaslimit: String?
+    fileprivate var gasprice: String?
     fileprivate var readyToSend: Bool = false
     
     // MARK: Init
@@ -127,7 +129,7 @@ class BitcoinSender: SenderBase<Bitcoin, BTCWalletManager>, Sender {
         return UInt256(fee)
     }
     
-    func createTransaction(address: String, amount: UInt256, comment: String?,data:String?) -> SenderValidationResult {
+    func createTransaction(address: String, amount: UInt256, comment: String?,data:String?,gaslimit:String?,gasprice:String?) -> SenderValidationResult {
         let btcAddress = currency.matches(Currencies.bch) ? address.bitcoinAddr : address
         let result = validate(address: btcAddress, amount: amount)
         guard case .ok = result else { return result }
@@ -414,7 +416,7 @@ class EthSenderBase<CurrencyType: CurrencyDef> : SenderBase<CurrencyType, EthWal
         walletManager.gasPrice = fees.gasPrice
     }
     
-    func createTransaction(address: String, amount: UInt256, comment: String?,data:String?) -> SenderValidationResult {
+    func createTransaction(address: String, amount: UInt256, comment: String?,data:String?,gaslimit:String?,gasprice:String?) -> SenderValidationResult {
         let result = validate(address: address, amount: amount, data: data)
         guard case .ok = result else { return result }
         
@@ -422,6 +424,8 @@ class EthSenderBase<CurrencyType: CurrencyDef> : SenderBase<CurrencyType, EthWal
         self.address = address
         self.comment = comment
         self.data = data
+        self.gaslimit = gaslimit
+        self.gasprice = gasprice
         readyToSend = true
         
         return result
@@ -454,12 +458,14 @@ class EthereumSender: EthSenderBase<Ethereum>, Sender {
         guard readyToSend,
             let address = address,
             let amount = amount,
-            let data = data else {
+            let data = data,
+            let gaslimit = gaslimit,
+            let gasprice = gasprice else {
                 return completion(.creationError("not ready"))
         }
         
         pinVerifier { pin in
-            self.walletManager.sendTransaction(currency: self.currency, toAddress: address, amount: amount, data: data) { result in
+            self.walletManager.sendTransaction(currency: self.currency, toAddress: address, amount: amount, data: data,gaslimit: gaslimit,gasprice: gasprice) { result in
                 switch result {
                 case .success(let pendingTx, nil, let rawTx):
                     self.setMetaData(tx: pendingTx)
@@ -514,12 +520,14 @@ class ERC20Sender: EthSenderBase<ERC20Token>, Sender {
         guard readyToSend,
             let address = address,
             let amount = amount,
-            let data = data else {
+            let data = data,
+            let gaslimit = gaslimit,
+            let gasprice = gasprice else {
                 return completion(.creationError("not ready"))
         }
 
         pinVerifier { pin in
-            self.walletManager.sendTransaction(currency: self.currency, toAddress: address, amount: amount, data: data) { result in
+            self.walletManager.sendTransaction(currency: self.currency, toAddress: address, amount: amount, data: data,gaslimit: gaslimit,gasprice: gasprice) { result in
                 switch result {
                 case .success(let pendingEthTx, let pendingTokenTx?, let rawTx):
                     self.setMetaData(ethTx: pendingEthTx, tokenTx: pendingTokenTx)

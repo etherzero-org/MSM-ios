@@ -11,6 +11,7 @@
 		023809A92101D9D000B14D6F /* Advanced.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023809A82101D9D000B14D6F /* Advanced.swift */; };
 		023809AE2102D78900B14D6F /* AdvancedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023809AD2102D78800B14D6F /* AdvancedCell.swift */; };
 		023809B02103103700B14D6F /* AdvanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023809AF2103103700B14D6F /* AdvanceViewController.swift */; };
+		023809B22107224600B14D6F /* GasPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023809B12107224100B14D6F /* GasPriceCell.swift */; };
 		1B1AFFA01FB7EF7C00E61908 /* BiometricsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1AFF9E1FB7EF7C00E61908 /* BiometricsSettingsViewController.swift */; };
 		1B1AFFA11FB7EF7C00E61908 /* BiometricsSpendingLimitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1AFF9F1FB7EF7C00E61908 /* BiometricsSpendingLimitViewController.swift */; };
 		22122B721F0B8996000E9AB9 /* BRAPIClient+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22122B711F0B8996000E9AB9 /* BRAPIClient+Events.swift */; };
@@ -601,6 +602,7 @@
 		023809A82101D9D000B14D6F /* Advanced.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Advanced.swift; sourceTree = "<group>"; };
 		023809AD2102D78800B14D6F /* AdvancedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedCell.swift; sourceTree = "<group>"; };
 		023809AF2103103700B14D6F /* AdvanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvanceViewController.swift; sourceTree = "<group>"; };
+		023809B12107224100B14D6F /* GasPriceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasPriceCell.swift; sourceTree = "<group>"; };
 		1B1AFF9E1FB7EF7C00E61908 /* BiometricsSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricsSettingsViewController.swift; sourceTree = "<group>"; };
 		1B1AFF9F1FB7EF7C00E61908 /* BiometricsSpendingLimitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricsSpendingLimitViewController.swift; sourceTree = "<group>"; };
 		22122B711F0B8996000E9AB9 /* BRAPIClient+Events.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BRAPIClient+Events.swift"; sourceTree = "<group>"; };
@@ -3232,6 +3234,7 @@
 				CECCE5AF1E04AD7600D99448 /* DescriptionSendCell.swift */,
 				022C511320FD838C00CB4576 /* DataSendCell.swift */,
 				023809AD2102D78800B14D6F /* AdvancedCell.swift */,
+				023809B12107224100B14D6F /* GasPriceCell.swift */,
 			);
 			name = SendViewCells;
 			sourceTree = "<group>";
@@ -3893,6 +3896,7 @@
 				CE5F21DB1E4A93A500C47B8E /* LoginTransitionDelegate.swift in Sources */,
 				CEE659E91F664C73001FF29D /* WelcomeViewController.swift in Sources */,
 				2228734F1E916FC30044BA15 /* BRAPIClient+Wallet.swift in Sources */,
+				023809B22107224600B14D6F /* GasPriceCell.swift in Sources */,
 				CEAA9EA81DC3342E0066731D /* PinView.swift in Sources */,
 				CE1D84B61EAEB2F4002A5D7B /* UIBarButtonItem+Additions.swift in Sources */,
 				CE5E6C961EB8CCF500A476DB /* SupportCenterContainer.swift in Sources */,

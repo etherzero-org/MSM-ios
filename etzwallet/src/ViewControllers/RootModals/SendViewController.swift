@@ -150,7 +150,7 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
     private let addressCell: AddressCell
     private let adVanceCon = UIView()
     private let dataCell = DataSendCell(placeholder: S.Send.dataValueLabel)
-    private let gaspriceCell = DataSendCell(placeholder: S.Send.gasPriceLabel)
+    private let gaspriceCell = GasPriceCell(placeholder: S.Send.gasPriceLabel,label:"gwei")
     private let gaslimitCell = DataSendCell(placeholder: S.Send.gasLimitLabel)
     private let memoCell = DescriptionSendCell(placeholder: S.Send.descriptionLabel)
     private let sendButton = ShadowButton(title: S.Send.sendLabel, type: .primary)
@@ -417,16 +417,19 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
             return false
         }
         
+        //验证Data的值是否合法
         if GYRegex.validateEnglishNumCharacter(dataCell.textView.text) == false && dataCell.textView.text != ""{
             showAlert(title: S.Alert.error, message: S.Send.errorData, buttonLabel: S.Button.ok)
             return false
         }
         
+        //验证gaslimit的值是否合法
         if GYRegex.validateNumber(gaslimitCell.textView.text) == false && gaslimitCell.textView.text != ""{
             showAlert(title: S.Alert.error, message: S.Send.errorGasLimit, buttonLabel: S.Button.ok)
             return false
         }
         
+        //验证gasprice的值是否合法
         if GYRegex.validateNumber(gaspriceCell.textView.text) == false && gaspriceCell.textView.text != ""{
             showAlert(title: S.Alert.error, message: S.Send.errorGasPrice, buttonLabel: S.Button.ok)
             return false
@@ -442,11 +445,23 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
             data = "0x\(data)"
         }
         
+        let gasPint = Int(gaspriceCell.textView.text)!
+        let base = 10
+        let power = 9
+        var answer = 1
+        for _ in 1...power {
+            answer *= base
+        }
+        
+        let gasP = gasPint*answer
+        
 
         let validationResult = sender.createTransaction(address: address,
                                                         amount: amount.rawValue,
                                                         comment: memoCell.textView.text,
-                                                        data: data)
+                                                        data: data,
+                                                        gaslimit: gaslimitCell.textView.text,
+                                                        gasprice: String(gasP))
         switch validationResult {
         case .noFees:
             showAlert(title: S.Alert.error, message: S.Send.noFeesError, buttonLabel: S.Button.ok)
@@ -675,7 +690,7 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
 
         if requestAmount == 0 {
             if let amount = amount {
-                guard case .ok = sender.createTransaction(address: address, amount: amount.rawValue, comment: nil,data:nil) else {
+                guard case .ok = sender.createTransaction(address: address, amount: amount.rawValue, comment: nil,data:nil,gaslimit:nil,gasprice:nil) else {
                     return showAlert(title: S.Alert.error, message: S.Send.createTransactionError, buttonLabel: S.Button.ok)
                 }
             }
