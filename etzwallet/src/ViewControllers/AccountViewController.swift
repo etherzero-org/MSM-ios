@@ -11,6 +11,7 @@ import BRCore
 import MachO
 
 let accountHeaderHeight: CGFloat = 152.0
+let accountETZHeaderHeight: CGFloat = 210.0
 let accountFooterHeight: CGFloat = 67.0
 
 class AccountViewController : UIViewController, Subscriber {
@@ -136,7 +137,12 @@ class AccountViewController : UIViewController, Subscriber {
     }
 
     private func addConstraints() {
-        headerContainer.constrainTopCorners(height: accountHeaderHeight)
+        if currency.code == "ETZ" {
+            headerContainer.constrainTopCorners(height: accountETZHeaderHeight)
+        }else{
+            headerContainer.constrainTopCorners(height: accountHeaderHeight)
+        }
+
         headerView.constrain(toSuperviewEdges: nil)
         searchHeaderview.constrain(toSuperviewEdges: nil)
 

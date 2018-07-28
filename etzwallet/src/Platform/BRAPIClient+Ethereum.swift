@@ -36,6 +36,11 @@ extension BRAPIClient {
     public func sendRawTransaction(rawTx: String, handler: @escaping (JSONRPCResult<String>) -> Void) {
         send(rpcRequest: JSONRPCRequest(method: "eth_sendRawTransaction", params: JSONRPCParams([rawTx])), handler: handler)
     }
+    
+    public func getEtzPower(address: EthAddress, handler: @escaping (APIResult<String>) -> Void){
+        let req = URLRequest(url: testurl("/etzq/api/v1/getPower?address=\(address)"))
+        send(apiRequest: req, handler: handler)
+    }
 
     public func getEthTxList(address: EthAddress, handler: @escaping (APIResult<[EthTxJSON]>)->Void) {
         let req = URLRequest(url: testurl("/etzq/api/v1/getEtzTxlist?address=\(address)"))

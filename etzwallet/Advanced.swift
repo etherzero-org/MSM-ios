@@ -34,9 +34,8 @@ class AdvancedBtn : UIView {
     
     private func addConstraints() {
         label.constrain([
-            label.leftAnchor.constraint(equalTo: leftAnchor, constant: C.padding[2]),
-            label.centerYAnchor.constraint(equalTo: centerYAnchor, constant: C.padding[2]),
-            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 3.0)
+            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[2]),
+            label.centerYAnchor.constraint(equalTo: centerYAnchor, constant: C.padding[2])
             ])
         
         label.setTitle(titles, for: .normal)

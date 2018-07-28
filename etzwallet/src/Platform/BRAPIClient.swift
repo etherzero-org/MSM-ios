@@ -73,11 +73,11 @@ open class BRAPIClient : NSObject, URLSessionDelegate, URLSessionTaskDelegate, B
     
     // host is the server(s) on which the API is hosted
     #if Testflight || Debug
-    var host = "rpc.etherzero.org:443"
+    var host = "rpc.etherzero.org"
     var host1 = "stage2.breadwallet.com"
     var testhost = "openetz.org"
     #else
-    var host = "rpc.etherzero.org:443"
+    var host = "rpc.etherzero.org"
     var host1 = "api.breadwallet.com"
     var testhost = "openetz.org"
     #endif

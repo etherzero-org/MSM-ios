@@ -23,6 +23,7 @@ typealias BRCoreEthereumLightNode = OpaquePointer
 /// Swift wrapper for BREthereumWalletEvent
 enum EthereumWalletEvent {
     case created
+    case powerUpdated
     case balanceUpdated
     case gasLimitUpdated
     case gasPriceUpdated
@@ -31,6 +32,7 @@ enum EthereumWalletEvent {
     init(_ event: BREthereumWalletEvent) {
         switch event {
         case WALLET_EVENT_CREATED:                      self = .created
+        case WALLET_EVENT_POWER_UPDATED:                self = .powerUpdated
         case WALLET_EVENT_BALANCE_UPDATED:              self = .balanceUpdated
         case WALLET_EVENT_DEFAULT_GAS_LIMIT_UPDATED:    self = .gasLimitUpdated
         case WALLET_EVENT_DEFAULT_GAS_PRICE_UPDATED:    self = .gasPriceUpdated
@@ -204,6 +206,11 @@ struct EthereumWallet : EthereumReference {
             : amount.u.tokenQuantity.valueAsInteger
     }
     
+    var power : Double {
+        let powernum : BREthereumPower = ethereumWalletGetPower(node.core, identifier)
+        return powernum.amountOfPower
+    }
+    
     //
     // MARK: Constructor
     //
@@ -273,6 +280,10 @@ struct EthereumWallet : EthereumReference {
     /// Trigger update of wallet's balance
     func updateBalance() {
         lightNodeUpdateWalletBalance(self.node!.core, identifier)
+    }
+    
+    func updatePower() {
+        lightNodeUpdateWalletPower(self.node!.core, identifier)
     }
     
     /// Trigger update of wallet's transactions
@@ -403,6 +414,8 @@ protocol EthereumClient : class {
                          completion: @escaping AmountHandler) -> Void
     
     func getBalance (wallet: EthereumWallet, address: String, completion: @escaping AmountHandler) -> Void
+    
+    func getPower (wallet: EthereumWallet, address: String, completion: @escaping AmountHandler) -> Void
     
     func submitTransaction (wallet: EthereumWallet,
                             tid: EthereumTransactionId,
@@ -636,6 +649,15 @@ class EthereumLightNode: EthereumPointer {
                     let wallet = this.findWallet(identifier: wid) else { return }
                 this.client?.getBalance(wallet: wallet, address: asUTF8String(address!), completion: { balance in
                     lightNodeAnnounceBalance (this.core, wid, balance, rid)
+                })
+                
+        },
+            //  JsonRpcGetPower funcGetPower,
+            { (this, core, wid, address, rid) in
+                guard let this = this.map ({ Unmanaged<EthereumLightNode>.fromOpaque($0).takeUnretainedValue() }),
+                    let wallet = this.findWallet(identifier: wid) else { return }
+                this.client?.getPower(wallet: wallet, address: asUTF8String(address!), completion: { power in
+                    lightNodeAnnouncePower (this.core, wid, power, rid)
                 })
                 
         },

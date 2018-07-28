@@ -50,8 +50,9 @@ class GasPriceCell : SendCell {
             placeholder.centerYAnchor.constraint(equalTo: textView.centerYAnchor),
             placeholder.leadingAnchor.constraint(equalTo: textView.leadingAnchor, constant: 5.0) ])
         labelView.constrain([
+            labelView.constraint(.right, toView: self, constant: -C.padding[2]),
             labelView.centerYAnchor.constraint(equalTo: placeholder.centerYAnchor),
-            labelView.trailingAnchor.constraint(equalTo: placeholder.trailingAnchor, constant: C.padding[36]),
+            labelView.trailingAnchor.constraint(equalTo: placeholder.trailingAnchor),
             ])
     }
     

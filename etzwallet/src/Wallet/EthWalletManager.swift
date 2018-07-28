@@ -226,6 +226,24 @@ extension EthWalletManager: EthereumClient {
         }
     }
     
+    //获取EtzPower值
+    func getPower(wallet: EthereumWallet, address: String, completion: @escaping (String) -> Void){
+        guard let apiClient = apiClient else { return assertionFailure() }
+        let currency = wallet.currency
+        guard syncState.willBeginRequest(.getPower, currencies: [currency]) else { return print("getPower \(currency.code) skipped") }
+        apiClient.getEtzPower(address: address) { result in
+            switch result {
+            case .success(let value):
+                completion(value)
+                self.syncState.didEndRequest(.getPower, currencies: [currency], success: true)
+            case .error(let error):
+                print("getPower error: \(error.localizedDescription)")
+                self.syncState.didEndRequest(.getPower, currencies: [currency], success: false)
+            }
+        }
+        
+    }
+    
     func submitTransaction(wallet: EthereumWallet, tid: EthereumTransactionId, rawTransaction: String, completion: @escaping (String) -> Void) {
         // unused - transactions are submitted in the send function
         assertionFailure()
@@ -311,6 +329,8 @@ extension EthWalletManager: EthereumListener {
         switch (event) {
         case .balanceUpdated:
             Store.perform(action: WalletChange(wallet.currency).setBalance(wallet.balance))
+        case .powerUpdated:
+            Store.perform(action: WalletChange(wallet.currency).setPower(wallet.power))
             
         default:
             break
@@ -340,6 +360,7 @@ extension EthWalletManager {
         enum Request {
             case getBalance
             case getTransactions
+            case getPower
         }
         
         init(timeout: TimeInterval) {
@@ -347,6 +368,7 @@ extension EthWalletManager {
             
             inProgress[.getBalance] = []
             inProgress[.getTransactions] = []
+            inProgress[.getPower] = []
         }
         
         func stop() {

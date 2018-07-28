@@ -110,6 +110,8 @@ enum S {
     enum Account {
         static let loadingMessage = NSLocalizedString("Account.loadingMessage", value:"Loading Wallet", comment: "Loading Wallet Message")
         static let balance = NSLocalizedString("Account.balance", value:"Balance", comment: "Account header balance label")
+        static let maxPower = NSLocalizedString("Account.maxPower", value:"Max Power", comment: "Account header Max Power label")
+        static let availablePower = NSLocalizedString("Account.availablePower", value:"Available Power", comment: "Account header Available Power label")
     }
 
     enum JailbreakWarnings {

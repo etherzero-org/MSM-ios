@@ -117,9 +117,17 @@ class TransactionsTableViewController : UITableViewController, Subscriber, Track
     }
 
     private func setContentInset() {
-        let insets = UIEdgeInsets(top: accountHeaderHeight - 64.0 - (E.isIPhoneX ? 28.0 : 0.0), left: 0, bottom: accountFooterHeight + C.padding[2], right: 0)
-        tableView.contentInset = insets
-        tableView.scrollIndicatorInsets = insets
+        if currency.code == "ETZ"{
+            let insets = UIEdgeInsets(top: accountETZHeaderHeight - 64.0 - (E.isIPhoneX ? 28.0 : 0.0), left: 0, bottom: accountFooterHeight + C.padding[2], right: 0)
+            tableView.contentInset = insets
+            tableView.scrollIndicatorInsets = insets
+        }else{
+            let insets = UIEdgeInsets(top: accountHeaderHeight - 64.0 - (E.isIPhoneX ? 28.0 : 0.0), left: 0, bottom: accountFooterHeight + C.padding[2], right: 0)
+            tableView.contentInset = insets
+            tableView.scrollIndicatorInsets = insets
+        }
+
+        
     }
 
     private func reload(txHash: String) {

@@ -169,6 +169,7 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
     private var didIgnoreIdentityNotCertified = false
     private var feeSelection: FeeLevel? = nil
     private var balance: UInt256 = 0
+    private var power: Double = 0
     private var amount: Amount?
     private var address: String? {
         if let protoRequest = validatedProtoRequest {
@@ -248,6 +249,7 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
                 ])
 
             adVanceds.constrain([
+                adVanceds.constraint(.right, toView: adVanceds),
                 adVanceds.widthAnchor.constraint(equalTo: dataCell.widthAnchor),
                 adVanceds.topAnchor.constraint(equalTo: dataCell.bottomAnchor),
                 adVanceds.leadingAnchor.constraint(equalTo: dataCell.leadingAnchor),
@@ -276,6 +278,12 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
                         callback: { [unowned self] in
                             if let balance = $0[self.currency]?.balance {
                                 self.balance = balance
+                            }
+        })
+        Store.subscribe(self, selector: { $0[self.currency]?.power != $1[self.currency]?.power },
+                        callback: { [unowned self] in
+                            if let power = $0[self.currency]?.power {
+                                self.power = power
                             }
         })
         Store.subscribe(self, selector: { $0[self.currency]?.fees != $1[self.currency]?.fees }, callback: { [unowned self] in
@@ -445,23 +453,35 @@ class SendViewController : UIViewController, Subscriber, ModalPresentable, Track
             data = "0x\(data)"
         }
         
-        let gasPint = Int(gaspriceCell.textView.text)!
-        let base = 10
-        let power = 9
-        var answer = 1
-        for _ in 1...power {
-            answer *= base
+        var gasL:String = ""
+        if gaslimitCell.textView.text == "" {
+            gasL = ""
+        }else{
+            gasL = gaslimitCell.textView.text
         }
         
-        let gasP = gasPint*answer
+        var gasP:String = ""
+        if gaspriceCell.textView.text != "" {
+            let gasPint = Int(gaspriceCell.textView.text)!
+            let base = 10
+            let power = 9
+            var answer = 1
+            for _ in 1...power {
+                answer *= base
+            }
+            
+            gasP = String(gasPint*answer)
+        }else{
+            gasP = ""
+        }
         
 
         let validationResult = sender.createTransaction(address: address,
                                                         amount: amount.rawValue,
                                                         comment: memoCell.textView.text,
                                                         data: data,
-                                                        gaslimit: gaslimitCell.textView.text,
-                                                        gasprice: String(gasP))
+                                                        gaslimit: gasL,
+                                                        gasprice: gasP)
         switch validationResult {
         case .noFees:
             showAlert(title: S.Alert.error, message: S.Send.noFeesError, buttonLabel: S.Button.ok)
