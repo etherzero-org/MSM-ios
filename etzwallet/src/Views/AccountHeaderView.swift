@@ -195,8 +195,11 @@ class AccountHeaderView : UIView, GradientDrawable, Subscriber {
             maxpowerBalance.constrain([
                 maxpowerBalance.leadingAnchor.constraint(equalTo: maxPowerLabel.leadingAnchor),
                 maxpowerBalance.bottomAnchor.constraint(equalTo: balanceLabel.topAnchor, constant: -C.padding[2]),
-                maxpowerBalance.leftAnchor.constraint(equalTo: rightAnchor),
+                maxpowerBalance.trailingAnchor.constraint(equalTo: availablepowerBalance.leadingAnchor),
+                maxpowerBalance.widthAnchor.constraint(equalToConstant: 5.0)
                 ])
+            
+            maxpowerBalance.textAlignment = .left
             
             availablePowerLabel.constrain([
                 availablePowerLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -C.padding[6]),
@@ -206,8 +209,10 @@ class AccountHeaderView : UIView, GradientDrawable, Subscriber {
             availablepowerBalance.constrain([
                 availablepowerBalance.trailingAnchor.constraint(equalTo: availablePowerLabel.trailingAnchor),
                 availablepowerBalance.bottomAnchor.constraint(equalTo: balanceLabel.topAnchor, constant: -C.padding[2]),
-                availablepowerBalance.rightAnchor.constraint(equalTo: availablePowerLabel.rightAnchor),
+                availablepowerBalance.widthAnchor.constraint(equalTo: maxpowerBalance.widthAnchor, constant: C.padding[2])
                 ])
+            
+            availablepowerBalance.textAlignment = .right
             
             balanceLabel.constrain([
                 balanceLabel.topAnchor.constraint(equalTo: availablepowerBalance.bottomAnchor, constant: -C.padding[2]),
@@ -347,7 +352,7 @@ class AccountHeaderView : UIView, GradientDrawable, Subscriber {
         let bl:Double = (blan as NSNumber).doubleValue
         let y:Double = -1 / (bl*50)*10000
         let x = exp(y)
-        let res:String = String(x * 10000000 + 200000)
+        let res:String = String((x * 10000000 + 200000)*18*pow(10,9)/pow(10,18))
         return res
     }
 
@@ -358,10 +363,12 @@ class AccountHeaderView : UIView, GradientDrawable, Subscriber {
         exchangeRateLabel.text = String(format: S.AccountHeader.exchangeRate, rate.localString, code)
         
         let amount = Amount(amount: balance, currency: currency, rate: rate)
-        let powerstr:String = String(format: "%.2f", power)
+        let powerstr:String = String(power)
         let maxpower:String = getMaxPower(blan: amount.powerValue)
         let powers = Amount(powerString: powerstr, currency: currency, rate: rate)
         let maxpowers = Amount(powerString: maxpower, currency: currency, rate: rate)
+        maxpowerBalance.lineBreakMode = .byTruncatingTail
+        availablepowerBalance.lineBreakMode = .byTruncatingTail
         
         if !hasInitialized {
             primaryBalance.setValue(amount.tokenValue,currency.code)

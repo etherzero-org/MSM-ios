@@ -85,14 +85,17 @@ class PowerLabel : UILabel {
     
     private func setFormattedText(forValue: Decimal,forCurrency: String) {
         value = forValue
+        let textValue = formatter.string(from: value as NSDecimalNumber)
         if forCurrency == "Max"{
-            text = formatter.string(from: value as NSDecimalNumber)
-        }else{
-            formatter.minimumFractionDigits = 2
+            formatter.minimumFractionDigits = 4
             formatter.minimumIntegerDigits = 1
-            text = formatter.string(from: value as NSDecimalNumber)
+            text = textValue
+        }else{
+            formatter.minimumFractionDigits = 4
+            formatter.minimumIntegerDigits = 1
+            text = textValue
         }
-        sizeToFit()
+//        sizeToFit()
     }
     
     required init?(coder aDecoder: NSCoder) {

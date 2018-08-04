@@ -70,16 +70,17 @@ open class BRAPIClient : NSObject, URLSessionDelegate, URLSessionTaskDelegate, B
     
     // proto is the transport protocol to use for talking to the API (either http or https)
     var proto = "https"
+    var protohttp = "http"
     
     // host is the server(s) on which the API is hosted
     #if Testflight || Debug
-    var host = "rpc.etherzero.org"
+    var host = "etzrpc.org:443"
     var host1 = "stage2.breadwallet.com"
-    var testhost = "openetz.org"
+    var testhost = "easyetz.io"
     #else
-    var host = "rpc.etherzero.org"
+    var host = "etzrpc.org:443"
     var host1 = "api.breadwallet.com"
-    var testhost = "openetz.org"
+    var testhost = "easyetz.io"
     #endif
     
     // isFetchingAuth is set to true when a request is currently trying to renew authentication (the token)
