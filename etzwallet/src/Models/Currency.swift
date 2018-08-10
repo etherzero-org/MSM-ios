@@ -271,7 +271,7 @@ public struct Currencies {
                                 code: "BO",
                                 symbol: "🍞",
                                 colors: (UIColor.fromHex("f9a43a"), UIColor.fromHex("ff5193")),
-                                address: E.isTestnet ? "0x86d105d5fa67f3eef986f75b7e63c6664f88319a" :  "0x86d105d5fa67f3eef986f75b7e63c6664f88319a",
+                                address: E.isTestnet ? "0xfddb863dbff0632d57571a5af38482966e722ab4" :  "0xfddb863dbff0632d57571a5af38482966e722ab4",
                                 abi: ERC20Token.standardAbi,
                                 decimals: 8)
 }
