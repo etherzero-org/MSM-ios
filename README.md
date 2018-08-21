@@ -1,4 +1,4 @@
-[![Bread](/images/top-logo.png)](https://etherzero.org)
+[![Bread](/images/top-logo1.png)](https://etherzero.org)
 
 ## The easy and secure etherzero wallet
 
