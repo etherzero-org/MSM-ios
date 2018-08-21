@@ -4722,7 +4722,7 @@
 				INFOPLIST_FILE = etzwallet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "-DDebug";
-				PRODUCT_BUNDLE_IDENTIFIER = org.etherzero.etzwallet;
+				PRODUCT_BUNDLE_IDENTIFIER = org.etherzero.msmwallet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "$(SDK_DIR)/usr/include $(SRCROOT)/Modules $(SRCROOT)/etzwallet/src/Platform";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -4744,7 +4744,7 @@
 				INFOPLIST_FILE = etzwallet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = org.etherzero.etzwallet;
+				PRODUCT_BUNDLE_IDENTIFIER = org.etherzero.msmwallet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "$(SDK_DIR)/usr/include $(SRCROOT)/Modules $(SRCROOT)/etzwallet/src/Platform";
 				SWIFT_VERSION = 4.0;
@@ -4959,7 +4959,7 @@
 				INFOPLIST_FILE = etzwallet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "-DDebug -DScreenshots -DTestnet";
-				PRODUCT_BUNDLE_IDENTIFIER = org.etherzero.etzwallet;
+				PRODUCT_BUNDLE_IDENTIFIER = org.etherzero.msmwallet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "$(SDK_DIR)/usr/include $(SRCROOT)/Modules $(SRCROOT)/etzwallet/src/Platform";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -5195,7 +5195,7 @@
 				INFOPLIST_FILE = etzwallet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "-DDebug -DTestnet";
-				PRODUCT_BUNDLE_IDENTIFIER = org.etherzero.etzwallet;
+				PRODUCT_BUNDLE_IDENTIFIER = org.etherzero.msmwallet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "$(SDK_DIR)/usr/include $(SRCROOT)/Modules $(SRCROOT)/etzwallet/src/Platform";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -5424,7 +5424,7 @@
 				INFOPLIST_FILE = etzwallet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "-DTestflight -DDebug";
-				PRODUCT_BUNDLE_IDENTIFIER = org.etherzero.etzwallet;
+				PRODUCT_BUNDLE_IDENTIFIER = org.etherzero.msmwallet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "$(SDK_DIR)/usr/include $(SRCROOT)/Modules $(SRCROOT)/etzwallet/src/Platform";
 				SWIFT_VERSION = 4.0;
